@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="org.apache.commons.math.feature" version="0.0.0">
+      <category name="org.apache.commons.math"/>
+   </feature>
+   <feature id="org.apache.commons.math.feature.source" version="0.0.0">
+      <category name="org.apache.commons.math.source"/>
+   </feature>
+   <category-def name="org.apache.commons.math" label="Apache Commons Math">
+      <description>
+         Apache Commons Math binary files.
+      </description>
+   </category-def>
+   <category-def name="org.apache.commons.math.source" label="Apache Commons Math (Sources)">
+      <description>
+         Apache Commons Math source files.
+      </description>
+   </category-def>
+</site>
