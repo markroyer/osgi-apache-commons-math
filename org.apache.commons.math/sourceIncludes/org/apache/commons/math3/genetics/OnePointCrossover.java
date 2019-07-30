@@ -46,7 +46,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  *
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @since 2.0
- * @version $Id: OnePointCrossover.java 1551014 2013-12-15 10:56:49Z tn $
  *
  */
 public class OnePointCrossover<T> implements CrossoverPolicy {

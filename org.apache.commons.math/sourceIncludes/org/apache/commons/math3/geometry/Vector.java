@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.MathArithmeticException;
 
 /** This interface represents a generic vector in a vectorial space or a point in an affine space.
  * @param <S> Type of the space.
- * @version $Id: Vector.java 1555175 2014-01-03 18:07:22Z luc $
  * @see Space
  * @see Point
  * @since 3.0

@@ -16,14 +16,15 @@
  */
 package org.apache.commons.math3.ml.distance;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Calculates the Earh Mover's distance (also known as Wasserstein metric) between two distributions.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Earth_mover's_distance">Earth Mover's distance (Wikipedia)</a>
  *
- * @version $Id: EarthMoversDistance.java 1519185 2013-08-31 15:32:49Z tn $
  * @since 3.3
  */
 public class EarthMoversDistance implements DistanceMeasure {
@@ -32,7 +33,9 @@ public class EarthMoversDistance implements DistanceMeasure {
     private static final long serialVersionUID = -5406732779747414922L;
 
     /** {@inheritDoc} */
-    public double compute(double[] a, double[] b) {
+    public double compute(double[] a, double[] b)
+    throws DimensionMismatchException {
+        MathArrays.checkEqualLength(a, b);
         double lastDistance = 0;
         double totalDistance = 0;
         for (int i = 0; i < a.length; i++) {

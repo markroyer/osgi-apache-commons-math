@@ -2,7 +2,7 @@
 <feature
       id="org.apache.commons.math.feature"
       label="Apache Commons Math"
-      version="3.3.0.qualifier">
+      version="3.6.1.qualifier">
 
    <description url="http://commons.apache.org/proper/commons-math">
       Commons Math is a library of lightweight, self-contained mathematics and statistics components addressing the most common problems not available in the Java programming language or Commons Lang.

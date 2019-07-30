@@ -27,7 +27,6 @@ import org.apache.commons.math3.ml.distance.DistanceMeasure;
  * Base class for clustering algorithms.
  *
  * @param <T> the type of points that can be clustered
- * @version $Id: Clusterer.java 1519184 2013-08-31 15:22:59Z tn $
  * @since 3.2
  */
 public abstract class Clusterer<T extends Clusterable> {

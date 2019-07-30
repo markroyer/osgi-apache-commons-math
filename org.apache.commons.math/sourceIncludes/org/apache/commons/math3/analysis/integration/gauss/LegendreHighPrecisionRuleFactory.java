@@ -27,11 +27,10 @@ import org.apache.commons.math3.util.Pair;
  * In this implementation, the lower and upper bounds of the natural interval
  * of integration are -1 and 1, respectively.
  * The Legendre polynomials are evaluated using the recurrence relation
- * presented in <a href="http://en.wikipedia.org/wiki/Abramowitz_and_Stegun"
+ * presented in <a href="http://en.wikipedia.org/wiki/Abramowitz_and_Stegun">
  * Abramowitz and Stegun, 1964</a>.
  *
  * @since 3.1
- * @version $Id: LegendreHighPrecisionRuleFactory.java 1455194 2013-03-11 15:45:54Z luc $
  */
 public class LegendreHighPrecisionRuleFactory extends BaseRuleFactory<BigDecimal> {
     /** Settings for enhanced precision computations. */

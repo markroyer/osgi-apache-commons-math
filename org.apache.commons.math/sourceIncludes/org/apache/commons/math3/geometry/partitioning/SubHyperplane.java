@@ -37,7 +37,6 @@ import org.apache.commons.math3.geometry.Space;
 
  * @param <S> Type of the embedding space.
 
- * @version $Id: SubHyperplane.java 1566416 2014-02-09 20:56:55Z luc $
  * @since 3.0
  */
 public interface SubHyperplane<S extends Space> {
@@ -72,7 +71,9 @@ public interface SubHyperplane<S extends Space> {
      * @param hyperplane hyperplane to check instance against
      * @return one of {@link Side#PLUS}, {@link Side#MINUS}, {@link Side#BOTH},
      * {@link Side#HYPER}
+     * @deprecated as of 3.6, replaced with {@link #split(Hyperplane)}.{@link SplitSubHyperplane#getSide()}
      */
+    @Deprecated
     Side side(Hyperplane<S> hyperplane);
 
     /** Split the instance in two parts by an hyperplane.
@@ -93,7 +94,7 @@ public interface SubHyperplane<S extends Space> {
     /** Class holding the results of the {@link #split split} method.
      * @param <U> Type of the embedding space.
      */
-    public static class SplitSubHyperplane<U extends Space> {
+    class SplitSubHyperplane<U extends Space> {
 
         /** Part of the sub-hyperplane on the plus side of the splitting hyperplane. */
         private final SubHyperplane<U> plus;
@@ -125,6 +126,28 @@ public interface SubHyperplane<S extends Space> {
          */
         public SubHyperplane<U> getMinus() {
             return minus;
+        }
+
+        /** Get the side of the split sub-hyperplane with respect to its splitter.
+         * @return {@link Side#PLUS} if only {@link #getPlus()} is neither null nor empty,
+         * {@link Side#MINUS} if only {@link #getMinus()} is neither null nor empty,
+         * {@link Side#BOTH} if both {@link #getPlus()} and {@link #getMinus()}
+         * are neither null nor empty or {@link Side#HYPER} if both {@link #getPlus()} and
+         * {@link #getMinus()} are either null or empty
+         * @since 3.6
+         */
+        public Side getSide() {
+            if (plus != null && !plus.isEmpty()) {
+                if (minus != null && !minus.isEmpty()) {
+                    return Side.BOTH;
+                } else {
+                    return Side.PLUS;
+                }
+            } else if (minus != null && !minus.isEmpty()) {
+                return Side.MINUS;
+            } else {
+                return Side.HYPER;
+            }
         }
 
     }

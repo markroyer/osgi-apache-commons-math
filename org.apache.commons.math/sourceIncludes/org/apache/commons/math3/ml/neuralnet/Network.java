@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Comparator;
 import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -40,7 +41,6 @@ import org.apache.commons.math3.exception.MathIllegalStateException;
  * Although updating a neuron's state is thread-safe, modifying the
  * network's topology (adding or removing links) is not.
  *
- * @version $Id: Network.java 1566092 2014-02-08 18:48:29Z tn $
  * @since 3.3
  */
 public class Network
@@ -133,6 +133,30 @@ public class Network
                    int featureSize) {
         nextId = new AtomicLong(initialIdentifier);
         this.featureSize = featureSize;
+    }
+
+    /**
+     * Performs a deep copy of this instance.
+     * Upon return, the copied and original instances will be independent:
+     * Updating one will not affect the other.
+     *
+     * @return a new instance with the same state as this instance.
+     * @since 3.6
+     */
+    public synchronized Network copy() {
+        final Network copy = new Network(nextId.get(),
+                                         featureSize);
+
+
+        for (Map.Entry<Long, Neuron> e : neuronMap.entrySet()) {
+            copy.neuronMap.put(e.getKey(), e.getValue().copy());
+        }
+
+        for (Map.Entry<Long, Set<Long>> e : linkMap.entrySet()) {
+            copy.linkMap.put(e.getKey(), new HashSet<Long>(e.getValue()));
+        }
+
+        return copy;
     }
 
     /**

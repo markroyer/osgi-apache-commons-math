@@ -47,7 +47,6 @@ import org.apache.commons.math3.util.FastMath;
  * &prod; (x-x<sub>k</sub>)/(x<sub>i</sub>-x<sub>k</sub>) for k != i.
  * </p>
  * <p>
- * @version $Id: LegendreGaussIntegrator.java 1455194 2013-03-11 15:45:54Z luc $
  * @since 1.2
  * @deprecated As of 3.1 (to be removed in 4.0). Please use
  * {@link IterativeLegendreGaussIntegrator} instead.
@@ -221,7 +220,7 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
                              getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5);
 
             // check convergence
-            if ((iterations.getCount() + 1 >= getMinimalIterationCount()) && (delta <= limit)) {
+            if ((getIterations() + 1 >= getMinimalIterationCount()) && (delta <= limit)) {
                 return t;
             }
 
@@ -229,7 +228,7 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
             double ratio = FastMath.min(4, FastMath.pow(delta / limit, 0.5 / abscissas.length));
             n = FastMath.max((int) (ratio * n), n + 1);
             oldt = t;
-            iterations.incrementCount();
+            incrementCount();
 
         }
 

@@ -28,7 +28,6 @@ import org.apache.commons.math3.linear.RealVector;
  * Default implementation of a {@link ProcessModel} for the use with a {@link KalmanFilter}.
  *
  * @since 3.0
- * @version $Id: DefaultProcessModel.java 1416643 2012-12-03 19:37:14Z tn $
  */
 public class DefaultProcessModel implements ProcessModel {
     /**

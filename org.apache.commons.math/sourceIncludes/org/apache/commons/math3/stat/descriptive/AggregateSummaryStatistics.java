@@ -48,7 +48,6 @@ import org.apache.commons.math3.exception.NullArgumentException;
  * to avoid unnecessary computation and synchronization delays.</p>
  *
  * @since 2.0
- * @version $Id: AggregateSummaryStatistics.java 1416643 2012-12-03 19:37:14Z tn $
  *
  */
 public class AggregateSummaryStatistics implements StatisticalSummary,
@@ -303,20 +302,21 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * @param statistics collection of SummaryStatistics to aggregate
      * @return summary statistics for the combined dataset
      */
-    public static StatisticalSummaryValues aggregate(Collection<SummaryStatistics> statistics) {
+    public static StatisticalSummaryValues aggregate(Collection<? extends StatisticalSummary> statistics) {
         if (statistics == null) {
             return null;
         }
-        Iterator<SummaryStatistics> iterator = statistics.iterator();
+        Iterator<? extends StatisticalSummary> iterator = statistics.iterator();
         if (!iterator.hasNext()) {
             return null;
         }
-        SummaryStatistics current = iterator.next();
+        StatisticalSummary current = iterator.next();
         long n = current.getN();
         double min = current.getMin();
         double sum = current.getSum();
         double max = current.getMax();
-        double m2 = current.getSecondMoment();
+        double var = current.getVariance();
+        double m2 = var * (n - 1d);
         double mean = current.getMean();
         while (iterator.hasNext()) {
             current = iterator.next();
@@ -332,7 +332,8 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
             n += curN;
             final double meanDiff = current.getMean() - mean;
             mean = sum / n;
-            m2 = m2 + current.getSecondMoment() + meanDiff * meanDiff * oldN * curN / n;
+            final double curM2 = current.getVariance() * (curN - 1d);
+            m2 = m2 + curM2 + meanDiff * meanDiff * oldN * curN / n;
         }
         final double variance;
         if (n == 0) {
@@ -371,7 +372,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
          * @param aggregateStatistics a {@code SummaryStatistics} into which
          *      values added to this statistics object should be aggregated
          */
-        public AggregatingSummaryStatistics(SummaryStatistics aggregateStatistics) {
+        AggregatingSummaryStatistics(SummaryStatistics aggregateStatistics) {
             this.aggregateStatistics = aggregateStatistics;
         }
 

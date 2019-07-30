@@ -32,7 +32,6 @@ import org.apache.commons.math3.util.FastMath;
  * This implementation employs the basic trapezoid rule to calculate Simpson's
  * rule.</p>
  *
- * @version $Id: SimpsonIntegrator.java 1364387 2012-07-22 18:14:11Z tn $
  * @since 1.2
  */
 public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
@@ -110,10 +109,10 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
         double olds = 0;
         double oldt = qtrap.stage(this, 0);
         while (true) {
-            final double t = qtrap.stage(this, iterations.getCount());
-            iterations.incrementCount();
+            final double t = qtrap.stage(this, getIterations());
+            incrementCount();
             final double s = (4 * t - oldt) / 3.0;
-            if (iterations.getCount() >= getMinimalIterationCount()) {
+            if (getIterations() >= getMinimalIterationCount()) {
                 final double delta = FastMath.abs(s - olds);
                 final double rLimit =
                     getRelativeAccuracy() * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;

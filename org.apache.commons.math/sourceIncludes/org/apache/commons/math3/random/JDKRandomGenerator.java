@@ -23,12 +23,28 @@ import java.util.Random;
  * {@link RandomGenerator}.
  *
  * @since 1.1
- * @version $Id: JDKRandomGenerator.java 1509236 2013-08-01 13:55:22Z erans $
  */
 public class JDKRandomGenerator extends Random implements RandomGenerator {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -7745277476784028798L;
+
+    /**
+     * Create a new JDKRandomGenerator with a default seed.
+     */
+    public JDKRandomGenerator() {
+        super();
+    }
+
+    /**
+     * Create a new JDKRandomGenerator with the given seed.
+     *
+     * @param seed initial seed
+     * @since 3.6
+     */
+    public JDKRandomGenerator(int seed) {
+        setSeed(seed);
+    }
 
     /** {@inheritDoc} */
     public void setSeed(int seed) {

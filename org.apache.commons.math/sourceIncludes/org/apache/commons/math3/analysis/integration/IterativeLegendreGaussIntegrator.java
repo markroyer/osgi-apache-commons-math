@@ -41,7 +41,6 @@ import org.apache.commons.math3.util.FastMath;
  * <a href="http://en.wikipedia.org/w/index.php?title=Numerical_integration#Integrals_over_infinite_intervals">
  *  here</a> should be avoided when using this class.
  *
- * @version $Id: IterativeLegendreGaussIntegrator.java 1499765 2013-07-04 14:24:11Z erans $
  * @since 3.1
  */
 
@@ -134,7 +133,7 @@ public class IterativeLegendreGaussIntegrator
                              getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5);
 
             // check convergence
-            if (iterations.getCount() + 1 >= getMinimalIterationCount() &&
+            if (getIterations() + 1 >= getMinimalIterationCount() &&
                 delta <= limit) {
                 return t;
             }
@@ -143,7 +142,7 @@ public class IterativeLegendreGaussIntegrator
             final double ratio = FastMath.min(4, FastMath.pow(delta / limit, 0.5 / numberOfPoints));
             n = FastMath.max((int) (ratio * n), n + 1);
             oldt = t;
-            iterations.incrementCount();
+            incrementCount();
         }
     }
 
@@ -159,6 +158,7 @@ public class IterativeLegendreGaussIntegrator
         throws TooManyEvaluationsException {
         // Function to be integrated is stored in the base class.
         final UnivariateFunction f = new UnivariateFunction() {
+                /** {@inheritDoc} */
                 public double value(double x)
                     throws MathIllegalArgumentException, TooManyEvaluationsException {
                     return computeObjectiveValue(x);

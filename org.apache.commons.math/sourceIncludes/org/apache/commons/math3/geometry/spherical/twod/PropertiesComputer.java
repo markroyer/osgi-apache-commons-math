@@ -27,7 +27,6 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
 /** Visitor computing geometrical properties.
- * @version $Id: PropertiesComputer.java 1567599 2014-02-12 11:12:45Z luc $
  * @since 3.3
  */
 class PropertiesComputer implements BSPTreeVisitor<Sphere2D> {
@@ -45,9 +44,9 @@ class PropertiesComputer implements BSPTreeVisitor<Sphere2D> {
     private final List<Vector3D> convexCellsInsidePoints;
 
     /** Simple constructor.
- * @param tolerance below which points are consider to be identical
+     * @param tolerance below which points are consider to be identical
      */
-    public PropertiesComputer(final double tolerance) {
+    PropertiesComputer(final double tolerance) {
         this.tolerance              = tolerance;
         this.summedArea             = 0;
         this.summedBarycenter       = Vector3D.ZERO;

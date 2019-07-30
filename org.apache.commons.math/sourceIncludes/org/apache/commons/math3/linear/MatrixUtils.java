@@ -42,7 +42,6 @@ import org.apache.commons.math3.util.Precision;
 /**
  * A collection of static methods that operate on or return matrices.
  *
- * @version $Id: MatrixUtils.java 1533638 2013-10-18 21:19:18Z tn $
  */
 public class MatrixUtils {
 
@@ -626,7 +625,7 @@ public class MatrixUtils {
         /** Converted array. */
         private double[][] data;
         /** Simple constructor. */
-        public FractionMatrixConverter() {
+        FractionMatrixConverter() {
             super(Fraction.ZERO);
         }
 
@@ -671,7 +670,7 @@ public class MatrixUtils {
         /** Converted array. */
         private double[][] data;
         /** Simple constructor. */
-        public BigFractionMatrixConverter() {
+        BigFractionMatrixConverter() {
             super(BigFraction.ZERO);
         }
 

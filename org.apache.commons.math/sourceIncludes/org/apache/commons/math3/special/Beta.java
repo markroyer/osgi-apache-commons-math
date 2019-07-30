@@ -49,7 +49,6 @@ import org.apache.commons.math3.util.FastMath;
  * </p>
  *
  *
- * @version $Id: Beta.java 1546350 2013-11-28 11:41:12Z erans $
  */
 public class Beta {
     /** Maximum allowed numerical error. */
@@ -198,6 +197,7 @@ public class Beta {
         } else {
             ContinuedFraction fraction = new ContinuedFraction() {
 
+                /** {@inheritDoc} */
                 @Override
                 protected double getB(int n, double x) {
                     double ret;
@@ -214,6 +214,7 @@ public class Beta {
                     return ret;
                 }
 
+                /** {@inheritDoc} */
                 @Override
                 protected double getA(int n, double x) {
                     return 1.0;

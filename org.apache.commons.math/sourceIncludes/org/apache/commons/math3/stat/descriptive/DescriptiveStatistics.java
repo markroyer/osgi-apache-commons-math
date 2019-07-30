@@ -56,7 +56,6 @@ import org.apache.commons.math3.util.FastMath;
  * {@link SynchronizedDescriptiveStatistics} if concurrent access from multiple
  * threads is required.</p>
  *
- * @version $Id: DescriptiveStatistics.java 1422354 2012-12-15 20:59:01Z psteitz $
  */
 public class DescriptiveStatistics implements StatisticalSummary, Serializable {
 
@@ -209,9 +208,12 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
 
     /**
      * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
-     * geometric mean </a> of the available values
+     * geometric mean </a> of the available values.
+     * <p>
+     * See {@link GeometricMean} for details on the computing algorithm.</p>
+     *
      * @return The geometricMean, Double.NaN if no values have been added,
-     * or if the product of the available values is less than or equal to 0.
+     * or if any negative values have been added.
      */
     public double getGeometricMean() {
         return apply(geometricMeanImpl);
@@ -260,10 +262,22 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
+     * Returns the quadratic mean, a.k.a.
+     * <a href="http://mathworld.wolfram.com/Root-Mean-Square.html">
+     * root-mean-square</a> of the available values
+     * @return The quadratic mean or {@code Double.NaN} if no values
+     * have been added.
+     */
+    public double getQuadraticMean() {
+        final long n = getN();
+        return n > 0 ? FastMath.sqrt(getSumsq() / n) : Double.NaN;
+    }
+
+    /**
      * Returns the skewness of the available values. Skewness is a
      * measure of the asymmetry of a given distribution.
-     * @return The skewness, Double.NaN if no values have been added
-     * or 0.0 for a value set &lt;=2.
+     *
+     * @return The skewness, Double.NaN if less than 3 values have been added.
      */
     public double getSkewness() {
         return apply(skewnessImpl);
@@ -271,9 +285,9 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
 
     /**
      * Returns the Kurtosis of the available values. Kurtosis is a
-     * measure of the "peakedness" of a distribution
-     * @return The kurtosis, Double.NaN if no values have been added, or 0.0
-     * for a value set &lt;=3.
+     * measure of the "peakedness" of a distribution.
+     *
+     * @return The kurtosis, Double.NaN if less than 4 values have been added.
      */
     public double getKurtosis() {
         return apply(kurtosisImpl);

@@ -75,7 +75,6 @@ import org.apache.commons.math3.util.MathUtils;
  *
  * @see MultivariateFunctionPenaltyAdapter
  *
- * @version $Id: MultivariateFunctionMappingAdapter.java 1435539 2013-01-19 13:27:24Z tn $
  * @since 3.0
  */
 public class MultivariateFunctionMappingAdapter
@@ -223,7 +222,7 @@ public class MultivariateFunctionMappingAdapter
          *
          * @param lower lower bound
          */
-        public LowerBoundMapper(final double lower) {
+        LowerBoundMapper(final double lower) {
             this.lower = lower;
         }
 
@@ -248,7 +247,7 @@ public class MultivariateFunctionMappingAdapter
         /** Simple constructor.
          * @param upper upper bound
          */
-        public UpperBoundMapper(final double upper) {
+        UpperBoundMapper(final double upper) {
             this.upper = upper;
         }
 
@@ -277,7 +276,7 @@ public class MultivariateFunctionMappingAdapter
          * @param lower lower bound
          * @param upper upper bound
          */
-        public LowerUpperBoundMapper(final double lower, final double upper) {
+        LowerUpperBoundMapper(final double lower, final double upper) {
             boundingFunction   = new Sigmoid(lower, upper);
             unboundingFunction = new Logit(lower, upper);
         }

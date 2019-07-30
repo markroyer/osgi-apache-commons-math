@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
 /** Wrapper class to compute Jacobian matrices by finite differences for ODE
  *  which do not compute them by themselves.
  *
- * @version $Id: ParameterJacobianWrapper.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 3.0
  */
 class ParameterJacobianWrapper implements ParameterJacobianProvider {
@@ -47,9 +46,9 @@ class ParameterJacobianWrapper implements ParameterJacobianProvider {
      * @param paramsAndSteps parameters and steps to compute the Jacobians df/dp
      * @see JacobianMatrices#setParameterStep(String, double)
      */
-    public ParameterJacobianWrapper(final FirstOrderDifferentialEquations fode,
-                                    final ParameterizedODE pode,
-                                    final ParameterConfiguration[] paramsAndSteps) {
+    ParameterJacobianWrapper(final FirstOrderDifferentialEquations fode,
+                             final ParameterizedODE pode,
+                             final ParameterConfiguration[] paramsAndSteps) {
         this.fode = fode;
         this.pode = pode;
         this.hParam = new HashMap<String, Double>();

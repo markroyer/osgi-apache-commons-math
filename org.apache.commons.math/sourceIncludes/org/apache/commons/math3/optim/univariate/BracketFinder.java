@@ -17,7 +17,7 @@
 package org.apache.commons.math3.optim.univariate;
 
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Incrementor;
+import org.apache.commons.math3.util.IntegerSequence;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
@@ -29,7 +29,6 @@ import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
  * This code is based on a Python implementation (from <em>SciPy</em>,
  * module {@code optimize.py} v0.5).
  *
- * @version $Id: BracketFinder.java 1573316 2014-03-02 14:54:37Z erans $
  * @since 2.2
  */
 public class BracketFinder {
@@ -46,7 +45,7 @@ public class BracketFinder {
     /**
      * Counter for function evaluations.
      */
-    private final Incrementor evaluations = new Incrementor();
+    private IntegerSequence.Incrementor evaluations;
     /**
      * Lower bound of the bracket.
      */
@@ -73,11 +72,11 @@ public class BracketFinder {
     private double fMid;
 
     /**
-     * Constructor with default values {@code 100, 50} (see the
+     * Constructor with default values {@code 100, 500} (see the
      * {@link #BracketFinder(double,int) other constructor}).
      */
     public BracketFinder() {
-        this(100, 50);
+        this(100, 500);
     }
 
     /**
@@ -97,7 +96,7 @@ public class BracketFinder {
         }
 
         this.growLimit = growLimit;
-        evaluations.setMaximalCount(maxEvaluations);
+        evaluations = IntegerSequence.Incrementor.create().withMaximalCount(maxEvaluations);
     }
 
     /**
@@ -114,7 +113,7 @@ public class BracketFinder {
                        GoalType goal,
                        double xA,
                        double xB) {
-        evaluations.resetCount();
+        evaluations = evaluations.withStart(0);
         final boolean isMinim = goal == GoalType.MINIMIZE;
 
         double fA = eval(func, xA);
@@ -282,7 +281,7 @@ public class BracketFinder {
      */
     private double eval(UnivariateFunction f, double x) {
         try {
-            evaluations.incrementCount();
+            evaluations.increment();
         } catch (MaxCountExceededException e) {
             throw new TooManyEvaluationsException(e.getMax());
         }

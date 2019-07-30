@@ -81,7 +81,6 @@ import org.apache.commons.math3.optimization.OptimizationData;
  * @see MultivariateFunctionPenaltyAdapter
  * @see CMAESOptimizer
  * @see BOBYQAOptimizer
- * @version $Id: SimplexOptimizer.java 1504724 2013-07-18 23:41:20Z sebb $
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */
@@ -188,6 +187,7 @@ public class SimplexOptimizer
         // evaluations counter.
         final MultivariateFunction evalFunc
             = new MultivariateFunction() {
+                /** {@inheritDoc} */
                 public double value(double[] point) {
                     return computeObjectiveValue(point);
                 }
@@ -196,6 +196,7 @@ public class SimplexOptimizer
         final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
         final Comparator<PointValuePair> comparator
             = new Comparator<PointValuePair>() {
+            /** {@inheritDoc} */
             public int compare(final PointValuePair o1,
                                final PointValuePair o2) {
                 final double v1 = o1.getValue();

@@ -31,7 +31,6 @@ import org.apache.commons.math3.util.MathArrays;
  * This class is a re-implementation of {@link Vector3D} using {@link RealFieldElement}.
  * <p>Instance of this class are guaranteed to be immutable.</p>
  * @param <T> the type of the field elements
- * @version $Id: FieldVector3D.java 1591835 2014-05-02 09:04:01Z tn $
  * @since 3.2
  */
 public class FieldVector3D<T extends RealFieldElement<T>> implements Serializable {

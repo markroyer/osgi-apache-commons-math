@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 /**
  * Represents an interval estimate of a population parameter.
  *
- * @version $Id: ConfidenceInterval.java 1560531 2014-01-22 22:00:37Z tn $
  * @since 3.3
  */
 public class ConfidenceInterval {

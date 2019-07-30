@@ -41,7 +41,6 @@ import org.apache.commons.math3.optim.nonlinear.scalar.LineSearch;
  * {@link #optimize(OptimizationData[]) optimize} will throw
  * {@link MathUnsupportedOperationException} if bounds are passed to it.
  *
- * @version $Id: NonLinearConjugateGradientOptimizer.java 1573316 2014-03-02 14:54:37Z erans $
  * @since 2.0
  */
 public class NonLinearConjugateGradientOptimizer
@@ -71,7 +70,7 @@ public class NonLinearConjugateGradientOptimizer
      *
      * @since 2.0
      */
-    public static enum Formula {
+    public enum Formula {
         /** Fletcher-Reeves formula. */
         FLETCHER_REEVES,
         /** Polak-Ribière formula. */

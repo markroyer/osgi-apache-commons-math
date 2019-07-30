@@ -35,7 +35,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
  * returns the element in the first row, first column of the matrix.</p>
  *
  * @param <T> the type of the field elements
- * @version $Id: FieldMatrix.java 1416643 2012-12-03 19:37:14Z tn $
  */
 public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     /**
@@ -177,21 +176,20 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
    throws NoDataException, NullArgumentException, OutOfRangeException;
 
    /**
-    * Copy a submatrix. Rows and columns are indicated
-    * counting from 0 to n-1.
+    * Copy a submatrix. Rows and columns are 0-based. The designated submatrix
+    * is copied into the top left portion of the destination array.
     *
     * @param startRow Initial row index.
     * @param endRow Final row index (inclusive).
     * @param startColumn Initial column index.
     * @param endColumn Final column index (inclusive).
-    * @param destination The arrays where the submatrix data should be copied
-    * (if larger than rows/columns counts, only the upper-left part will be used).
+    * @param destination The array where the submatrix data should be copied
+    * (if larger than rows/columns counts, only the upper-left part will be modified).
     * @throws MatrixDimensionMismatchException if the dimensions of
-    * {@code destination} do not match those of {@code this}.
-    * @throws NumberIsTooSmallException is {@code endRow < startRow} of
+    * {@code destination} are not large enough to hold the submatrix.
+    * @throws NumberIsTooSmallException if {@code endRow < startRow} or
     * {@code endColumn < startColumn}.
     * @throws OutOfRangeException if the indices are not valid.
-    * @exception IllegalArgumentException if the destination array is too small.
     */
     void copySubMatrix(int startRow, int endRow, int startColumn, int endColumn,
                        T[][] destination)

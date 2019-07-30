@@ -18,9 +18,9 @@ package org.apache.commons.math3.dfp;
 
 /**
  * An interface representing a univariate {@link Dfp} function.
- *
- * @version $Id: UnivariateDfpFunction.java 1416643 2012-12-03 19:37:14Z tn $
+ * @deprecated as of 3.6, replaced with {@link org.apache.commons.math3.analysis.RealFieldUnivariateFunction}
  */
+@Deprecated
 public interface UnivariateDfpFunction {
 
     /**

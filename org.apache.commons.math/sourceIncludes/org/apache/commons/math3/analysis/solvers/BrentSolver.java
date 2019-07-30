@@ -18,8 +18,8 @@ package org.apache.commons.math3.analysis.solvers;
 
 
 import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
@@ -29,11 +29,18 @@ import org.apache.commons.math3.util.Precision;
  * The function should be continuous but not necessarily smooth.
  * The {@code solve} method returns a zero {@code x} of the function {@code f}
  * in the given interval {@code [a, b]} to within a tolerance
- * {@code 6 eps abs(x) + t} where {@code eps} is the relative accuracy and
+ * {@code 2 eps abs(x) + t} where {@code eps} is the relative accuracy and
  * {@code t} is the absolute accuracy.
- * The given interval must bracket the root.
+ * <p>The given interval must bracket the root.</p>
+ * <p>
+ *  The reference implementation is given in chapter 4 of
+ *  <blockquote>
+ *   <b>Algorithms for Minimization Without Derivatives</b>,
+ *   <em>Richard P. Brent</em>,
+ *   Dover, 2002
+ *  </blockquote>
  *
- * @version $Id: BrentSolver.java 1379560 2012-08-31 19:40:30Z erans $
+ * @see BaseAbstractUnivariateSolver
  */
 public class BrentSolver extends AbstractUnivariateSolver {
 
@@ -41,7 +48,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
-     * Construct a solver with default accuracy (1e-6).
+     * Construct a solver with default absolute accuracy (1e-6).
      */
     public BrentSolver() {
         this(DEFAULT_ABSOLUTE_ACCURACY);
@@ -70,6 +77,8 @@ public class BrentSolver extends AbstractUnivariateSolver {
      * @param relativeAccuracy Relative accuracy.
      * @param absoluteAccuracy Absolute accuracy.
      * @param functionValueAccuracy Function value accuracy.
+     *
+     * @see BaseAbstractUnivariateSolver#BaseAbstractUnivariateSolver(double,double,double)
      */
     public BrentSolver(double relativeAccuracy,
                        double absoluteAccuracy,
@@ -127,11 +136,11 @@ public class BrentSolver extends AbstractUnivariateSolver {
      * Search for a zero inside the provided interval.
      * This implementation is based on the algorithm described at page 58 of
      * the book
-     * <quote>
-     *  <b>Algorithms for Minimization Without Derivatives</b>
-     *  <it>Richard P. Brent</it>
+     * <blockquote>
+     *  <b>Algorithms for Minimization Without Derivatives</b>,
+     *  <it>Richard P. Brent</it>,
      *  Dover 0-486-41998-3
-     * </quote>
+     * </blockquote>
      *
      * @param lo Lower bound of the search interval.
      * @param hi Higher bound of the search interval.

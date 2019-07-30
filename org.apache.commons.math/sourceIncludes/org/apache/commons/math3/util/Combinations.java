@@ -30,7 +30,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
  * combinations</a> {@code (n, k)} of {@code k} elements in a set of
  * {@code n} elements.
  *
- * @version $Id: Combinations.java 1591835 2014-05-02 09:04:01Z tn $
  * @since 3.3
  */
 public class Combinations implements Iterable<int[]> {
@@ -45,7 +44,7 @@ public class Combinations implements Iterable<int[]> {
      * Describes the type of iteration performed by the
      * {@link #iterator() iterator}.
      */
-    private static enum IterationOrder {
+    private enum IterationOrder {
         /** Lexicographic order. */
         LEXICOGRAPHIC
     }
@@ -204,7 +203,7 @@ public class Combinations implements Iterable<int[]> {
          * @param n size of the set from which subsets are enumerated
          * @param k size of the subsets to enumerate
          */
-        public LexicographicIterator(int n, int k) {
+        LexicographicIterator(int n, int k) {
             this.k = k;
             c = new int[k + 3];
             if (k == 0 || k >= n) {
@@ -298,7 +297,7 @@ public class Combinations implements Iterable<int[]> {
          * Create a singleton iterator providing the given array.
          * @param singleton array returned by the iterator
          */
-        public SingletonIterator(final int[] singleton) {
+        SingletonIterator(final int[] singleton) {
             this.singleton = singleton;
         }
         /** @return True until next is called the first time, then false */
@@ -337,8 +336,7 @@ public class Combinations implements Iterable<int[]> {
          * @param n Size of the set from which subsets are selected.
          * @param k Size of the subsets to be enumerated.
          */
-        public LexicographicComparator(int n,
-                                       int k) {
+        LexicographicComparator(int n, int k) {
             this.n = n;
             this.k = k;
         }

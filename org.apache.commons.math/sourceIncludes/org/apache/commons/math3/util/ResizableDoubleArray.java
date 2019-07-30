@@ -79,7 +79,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * requirement, throwing a {@code MathIllegalArgumentException} if it is
  * violated.
  * </p>
- * @version $Id: ResizableDoubleArray.java 1591835 2014-05-02 09:04:01Z tn $
  */
 public class ResizableDoubleArray implements DoubleArray, Serializable {
     /** Additive expansion mode.
@@ -150,7 +149,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Specification of expansion algorithm.
      * @since 3.1
      */
-    public static enum ExpansionMode {
+    public enum ExpansionMode {
         /** Multiplicative expansion mode. */
         MULTIPLICATIVE,
         /** Additive expansion mode. */
@@ -412,7 +411,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         numElements = 0;
         startIndex = 0;
 
-        if (data != null) {
+        if (data != null && data.length > 0) {
             addElements(data);
         }
     }
@@ -809,13 +808,15 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     @Deprecated
     public int getExpansionMode() {
-        switch (expansionMode) {
-        case MULTIPLICATIVE:
-            return MULTIPLICATIVE_MODE;
-        case ADDITIVE:
-            return ADDITIVE_MODE;
-        default:
-            throw new MathInternalError(); // Should never happen.
+        synchronized (this) {
+            switch (expansionMode) {
+                case MULTIPLICATIVE:
+                    return MULTIPLICATIVE_MODE;
+                case ADDITIVE:
+                    return ADDITIVE_MODE;
+                default:
+                    throw new MathInternalError(); // Should never happen.
+            }
         }
     }
 
@@ -1027,7 +1028,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     @Deprecated
     public void setExpansionMode(ExpansionMode expansionMode) {
-        this.expansionMode = expansionMode;
+        synchronized(this) {
+            this.expansionMode = expansionMode;
+        }
     }
 
     /**

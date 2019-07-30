@@ -41,7 +41,6 @@ import org.apache.commons.math3.util.CompositeFormat;
  * of the default {@link NumberFormat} for the current locale. Thus it is advised
  * to use a {@link NumberFormat} instance with disabled grouping in such a case.</p>
  *
- * @version $Id: Vector3DFormat.java 1467801 2013-04-14 16:19:33Z tn $
  */
 public class Vector3DFormat extends VectorFormat<Euclidean3D> {
 

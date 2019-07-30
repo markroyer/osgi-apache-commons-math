@@ -33,7 +33,6 @@ import org.apache.commons.math3.geometry.Space;
  * @see <a href="http://mathworld.wolfram.com/ConvexHull.html">Convex Hull (MathWorld)</a>
  *
  * @since 3.3
- * @version $Id: ConvexHullGenerator.java 1568752 2014-02-16 12:19:51Z tn $
  */
 public interface ConvexHullGenerator<S extends Space, P extends Point<S>> {
 

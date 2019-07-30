@@ -49,7 +49,6 @@ import org.apache.commons.math3.util.FastMath;
  * functions can safely be ported to Commons-Math.
  * </p>
  *
- * @version $Id: Gamma.java 1538368 2013-11-03 13:57:37Z erans $
  */
 public class Gamma {
     /**
@@ -403,11 +402,13 @@ public class Gamma {
             // create continued fraction
             ContinuedFraction cf = new ContinuedFraction() {
 
+                /** {@inheritDoc} */
                 @Override
                 protected double getA(int n, double x) {
                     return ((2.0 * n) + 1.0) - a + x;
                 }
 
+                /** {@inheritDoc} */
                 @Override
                 protected double getB(int n, double x) {
                     return n * (a - n);
@@ -443,6 +444,10 @@ public class Gamma {
      * @since 2.0
      */
     public static double digamma(double x) {
+        if (Double.isNaN(x) || Double.isInfinite(x)) {
+            return x;
+        }
+
         if (x > 0 && x <= S_LIMIT) {
             // use method 5 from Bernardo AS103
             // accurate to O(x)
@@ -473,6 +478,10 @@ public class Gamma {
      * @since 2.0
      */
     public static double trigamma(double x) {
+        if (Double.isNaN(x) || Double.isInfinite(x)) {
+            return x;
+        }
+
         if (x > 0 && x <= S_LIMIT) {
             return 1 / (x * x);
         }
@@ -688,7 +697,7 @@ public class Gamma {
             }
         } else {
             final double y = absX + LANCZOS_G + 0.5;
-            final double gammaAbs = SQRT_TWO_PI / x *
+            final double gammaAbs = SQRT_TWO_PI / absX *
                                     FastMath.pow(y, absX + 0.5) *
                                     FastMath.exp(-y) * lanczos(absX);
             if (x > 0.0) {

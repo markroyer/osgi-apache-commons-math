@@ -40,7 +40,6 @@ import org.apache.commons.math3.util.FastMath;
  * local properties only when part of a line is used to define part of
  * a spherical polygon boundary.</p>
 
- * @version $Id: Circle.java 1560115 2014-01-21 17:49:13Z luc $
  * @since 3.3
  */
 public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1D> {
@@ -296,7 +295,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
         /** Build a transform from a {@code Rotation}.
          * @param rotation rotation to use
          */
-        public CircleTransform(final Rotation rotation) {
+        CircleTransform(final Rotation rotation) {
             this.rotation = rotation;
         }
 

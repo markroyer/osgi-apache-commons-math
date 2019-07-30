@@ -49,7 +49,6 @@ import org.apache.commons.math3.stat.descriptive.moment.SecondMoment;
  *
  * <p>Given <code>Q</code> and <code>R</code>, the last equation is solved by back-substitution.</p>
  *
- * @version $Id: OLSMultipleLinearRegression.java 1591624 2014-05-01 11:54:06Z tn $
  * @since 2.0
  */
 public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegression {
@@ -157,12 +156,11 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * the {@link #calculateRSquared() R-squared} computation.</p>
      *
      * @return SSTO - the total sum of squares
-     * @throws MathIllegalArgumentException if the sample has not been set or does
-     * not contain at least 3 observations
+     * @throws NullPointerException if the sample has not been set
      * @see #isNoIntercept()
      * @since 2.2
      */
-    public double calculateTotalSumOfSquares() throws MathIllegalArgumentException {
+    public double calculateTotalSumOfSquares() {
         if (isNoIntercept()) {
             return StatUtils.sumSq(getY().toArray());
         } else {
@@ -175,6 +173,8 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      *
      * @return residual sum of squares
      * @since 2.2
+     * @throws org.apache.commons.math3.linear.SingularMatrixException if the design matrix is singular
+     * @throws NullPointerException if the data for the model have not been loaded
      */
     public double calculateResidualSumOfSquares() {
         final RealVector residuals = calculateResiduals();
@@ -189,12 +189,14 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * where SSR is the {@link #calculateResidualSumOfSquares() sum of squared residuals}
      * and SSTO is the {@link #calculateTotalSumOfSquares() total sum of squares}
      *
+     * <p>If there is no variance in y, i.e., SSTO = 0, NaN is returned.</p>
+     *
      * @return R-square statistic
-     * @throws MathIllegalArgumentException if the sample has not been set or does
-     * not contain at least 3 observations
+     * @throws NullPointerException if the sample has not been set
+     * @throws org.apache.commons.math3.linear.SingularMatrixException if the design matrix is singular
      * @since 2.2
      */
-    public double calculateRSquared() throws MathIllegalArgumentException {
+    public double calculateRSquared() {
         return 1 - calculateResidualSumOfSquares() / calculateTotalSumOfSquares();
     }
 
@@ -210,13 +212,15 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * <code> 1 - (1 - {@link #calculateRSquared()}) * (n / (n - p)) </code>
      * </pre></p>
      *
+     * <p>If there is no variance in y, i.e., SSTO = 0, NaN is returned.</p>
+     *
      * @return adjusted R-Squared statistic
-     * @throws MathIllegalArgumentException if the sample has not been set or does
-     * not contain at least 3 observations
+     * @throws NullPointerException if the sample has not been set
+     * @throws org.apache.commons.math3.linear.SingularMatrixException if the design matrix is singular
      * @see #isNoIntercept()
      * @since 2.2
      */
-    public double calculateAdjustedRSquared() throws MathIllegalArgumentException {
+    public double calculateAdjustedRSquared() {
         final double n = getX().getRowDimension();
         if (isNoIntercept()) {
             return 1 - (1 - calculateRSquared()) * (n / (n - getX().getColumnDimension()));
@@ -234,7 +238,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     @Override
     protected void newXSampleData(double[][] x) {
         super.newXSampleData(x);
-        qr = new QRDecomposition(getX());
+        qr = new QRDecomposition(getX(), threshold);
     }
 
     /**
@@ -245,6 +249,8 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * a {@code NullPointerException} will be thrown.</p>
      *
      * @return beta
+     * @throws org.apache.commons.math3.linear.SingularMatrixException if the design matrix is singular
+     * @throws NullPointerException if the data for the model have not been loaded
      */
     @Override
     protected RealVector calculateBeta() {
@@ -265,6 +271,8 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * a {@code NullPointerException} will be thrown.</p>
      *
      * @return The beta variance-covariance matrix
+     * @throws org.apache.commons.math3.linear.SingularMatrixException if the design matrix is singular
+     * @throws NullPointerException if the data for the model have not been loaded
      */
     @Override
     protected RealMatrix calculateBetaVariance() {

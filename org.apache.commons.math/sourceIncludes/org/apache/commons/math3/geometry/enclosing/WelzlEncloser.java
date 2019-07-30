@@ -38,7 +38,6 @@ import org.apache.commons.math3.geometry.Space;
  * </p>
  * @param <S> Space type.
  * @param <P> Point type.
- * @version $Id: WelzlEncloser.java 1591835 2014-05-02 09:04:01Z tn $
  * @since 3.3
  */
 public class WelzlEncloser<S extends Space, P extends Point<S>> implements Encloser<S, P> {

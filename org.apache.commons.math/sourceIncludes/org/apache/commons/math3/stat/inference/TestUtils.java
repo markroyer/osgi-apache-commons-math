@@ -37,7 +37,6 @@ import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
  * perform inference tests.
  *
  * @since 1.1
- * @version $Id: TestUtils.java 1592430 2014-05-04 23:19:43Z psteitz $
  */
 public class TestUtils  {
 
@@ -501,7 +500,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see kolmogorovSmirnovTest(double[], double[])
+     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(double[], double[])
      * @since 3.3
      */
     public static double kolmogorovSmirnovTest(double[] x, double[] y)

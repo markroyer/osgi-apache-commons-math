@@ -29,7 +29,6 @@ import org.apache.commons.math3.util.FastMath;
  * integration scheme.</p>
  *
  * @see LutherIntegrator
- * @version $Id: LutherStepInterpolator.java 1590561 2014-04-28 06:39:21Z luc $
  * @since 3.3
  */
 
@@ -52,15 +51,18 @@ class LutherStepInterpolator extends RungeKuttaStepInterpolator {
      * to create the step interpolators by cloning an uninitialized model
      * and later initializing the copy.
      */
+    // CHECKSTYLE: stop RedundantModifier
+    // the public modifier here is needed for serialization
     public LutherStepInterpolator() {
     }
+    // CHECKSTYLE: resume RedundantModifier
 
     /** Copy constructor.
      * @param interpolator interpolator to copy from. The copy is a deep
      * copy: its arrays are separated from the original arrays of the
      * instance
      */
-    public LutherStepInterpolator(final LutherStepInterpolator interpolator) {
+    LutherStepInterpolator(final LutherStepInterpolator interpolator) {
         super(interpolator);
     }
 

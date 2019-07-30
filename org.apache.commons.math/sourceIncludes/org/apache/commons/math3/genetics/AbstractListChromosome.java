@@ -25,7 +25,6 @@ import java.util.List;
  * Chromosome represented by an immutable list of a fixed length.
  *
  * @param <T> type of the representation list
- * @version $Id: AbstractListChromosome.java 1561509 2014-01-26 15:47:40Z tn $
  * @since 2.0
  */
 public abstract class AbstractListChromosome<T> extends Chromosome {
@@ -99,6 +98,7 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
      */
     public abstract AbstractListChromosome<T> newFixedLengthChromosome(final List<T> chromosomeRepresentation);
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return String.format("(f=%s %s)", getFitness(), getRepresentation());

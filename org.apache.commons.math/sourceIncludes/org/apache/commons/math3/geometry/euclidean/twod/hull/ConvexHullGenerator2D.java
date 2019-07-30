@@ -28,7 +28,6 @@ import org.apache.commons.math3.geometry.hull.ConvexHullGenerator;
  * Interface for convex hull generators in the two-dimensional euclidean space.
  *
  * @since 3.3
- * @version $Id: ConvexHullGenerator2D.java 1568752 2014-02-16 12:19:51Z tn $
  */
 public interface ConvexHullGenerator2D extends ConvexHullGenerator<Euclidean2D, Vector2D> {
 

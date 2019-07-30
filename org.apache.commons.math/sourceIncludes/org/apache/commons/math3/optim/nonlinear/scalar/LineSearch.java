@@ -31,7 +31,6 @@ import org.apache.commons.math3.optim.MaxEval;
  * direction.
  *
  * @since 3.3
- * @version $Id: LineSearch.java 1573341 2014-03-02 19:38:47Z erans $
  */
 public class LineSearch {
     /**
@@ -113,6 +112,7 @@ public class LineSearch {
                                            final double[] direction) {
         final int n = startPoint.length;
         final UnivariateFunction f = new UnivariateFunction() {
+                /** {@inheritDoc} */
                 public double value(double alpha) {
                     final double[] x = new double[n];
                     for (int i = 0; i < n; i++) {

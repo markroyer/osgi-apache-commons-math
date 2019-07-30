@@ -32,7 +32,6 @@ import org.apache.commons.math3.util.FastMath;
  * <p>
  * The function should be integrable.</p>
  *
- * @version $Id: MidPointIntegrator.java 1499813 2013-07-04 17:24:47Z sebb $
  * @since 3.3
  */
 public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
@@ -151,8 +150,8 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
         double oldt = diff * computeObjectiveValue(midPoint);
 
         while (true) {
-            iterations.incrementCount();
-            final int i = iterations.getCount();
+            incrementCount();
+            final int i = getIterations();
             final double t = stage(i, oldt, min, diff);
             if (i >= getMinimalIterationCount()) {
                 final double delta = FastMath.abs(t - oldt);

@@ -34,7 +34,6 @@ import org.apache.commons.math3.util.MathUtils;
  * Clustering algorithm based on David Arthur and Sergei Vassilvitski k-means++ algorithm.
  * @param <T> type of the points to cluster
  * @see <a href="http://en.wikipedia.org/wiki/K-means%2B%2B">K-means++ (wikipedia)</a>
- * @version $Id: KMeansPlusPlusClusterer.java 1461871 2013-03-27 22:01:25Z tn $
  * @since 2.0
  * @deprecated As of 3.2 (to be removed in 4.0),
  * use {@link org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer} instead
@@ -43,7 +42,7 @@ import org.apache.commons.math3.util.MathUtils;
 public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
     /** Strategies to use for replacing an empty cluster. */
-    public static enum EmptyClusterStrategy {
+    public enum EmptyClusterStrategy {
 
         /** Split the cluster with largest distance variance. */
         LARGEST_VARIANCE,

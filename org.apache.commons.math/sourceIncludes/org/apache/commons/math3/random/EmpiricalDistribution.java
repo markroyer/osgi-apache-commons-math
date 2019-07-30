@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.distribution.AbstractRealDistribution;
+import org.apache.commons.math3.distribution.ConstantRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.exception.MathIllegalStateException;
@@ -36,6 +37,7 @@ import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.ZeroException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
@@ -97,7 +99,6 @@ import org.apache.commons.math3.util.MathUtils;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Id: EmpiricalDistribution.java 1587494 2014-04-15 10:02:54Z erans $
  */
 public class EmpiricalDistribution extends AbstractRealDistribution {
 
@@ -147,7 +148,8 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     /**
      * Creates a new EmpiricalDistribution with the specified bin count.
      *
-     * @param binCount number of bins
+     * @param binCount number of bins. Must be strictly positive.
+     * @throws NotStrictlyPositiveException if {@code binCount <= 0}.
      */
     public EmpiricalDistribution(int binCount) {
         this(binCount, new RandomDataGenerator());
@@ -157,8 +159,9 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * Creates a new EmpiricalDistribution with the specified bin count using the
      * provided {@link RandomGenerator} as the source of random data.
      *
-     * @param binCount number of bins
+     * @param binCount number of bins. Must be strictly positive.
      * @param generator random data generator (may be null, resulting in default JDK generator)
+     * @throws NotStrictlyPositiveException if {@code binCount <= 0}.
      * @since 3.0
      */
     public EmpiricalDistribution(int binCount, RandomGenerator generator) {
@@ -207,12 +210,16 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * Private constructor to allow lazy initialisation of the RNG contained
      * in the {@link #randomData} instance variable.
      *
-     * @param binCount number of bins
+     * @param binCount number of bins. Must be strictly positive.
      * @param randomData Random data generator.
+     * @throws NotStrictlyPositiveException if {@code binCount <= 0}.
      */
     private EmpiricalDistribution(int binCount,
                                   RandomDataGenerator randomData) {
-        super(null);
+        super(randomData.getRandomGenerator());
+        if (binCount <= 0) {
+            throw new NotStrictlyPositiveException(binCount);
+        }
         this.binCount = binCount;
         this.randomData = randomData;
         binStats = new ArrayList<SummaryStatistics>();
@@ -342,7 +349,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
          *
          * @param in BufferedReader input stream
          */
-        public StreamDataAdapter(BufferedReader in){
+        StreamDataAdapter(BufferedReader in){
             super();
             inputStream = in;
         }
@@ -391,7 +398,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
          * @param in double[] array holding the data
          * @throws NullArgumentException if in is null
          */
-        public ArrayDataAdapter(double[] in) throws NullArgumentException {
+        ArrayDataAdapter(double[] in) throws NullArgumentException {
             super();
             MathUtils.checkNotNull(in);
             inputArray = in;
@@ -478,23 +485,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
             throw new MathIllegalStateException(LocalizedFormats.DISTRIBUTION_NOT_LOADED);
         }
 
-        // Start with a uniformly distributed random number in (0,1)
-        final double x = randomData.nextUniform(0,1);
-
-        // Use this to select the bin and generate a Gaussian within the bin
-        for (int i = 0; i < binCount; i++) {
-           if (x <= upperBounds[i]) {
-               SummaryStatistics stats = binStats.get(i);
-               if (stats.getN() > 0) {
-                   if (stats.getStandardDeviation() > 0) {  // more than one obs
-                       return getKernel(stats).sample();
-                   } else {
-                       return stats.getMean(); // only one obs in bin
-                   }
-               }
-           }
-        }
-        throw new MathIllegalStateException(LocalizedFormats.NO_BIN_SELECTED);
+        return sample();
     }
 
     /**
@@ -636,7 +627,9 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * <li>Compute K(B) = the probability mass of B with respect to the within-bin kernel
      * and K(B-) = the kernel distribution evaluated at the lower endpoint of B</li>
      * <li>Return P(B-) + P(B) * [K(x) - K(B-)] / K(B) where
-     * K(x) is the within-bin kernel distribution function evaluated at x.</li></ol></p>
+     * K(x) is the within-bin kernel distribution function evaluated at x.</li></ol>
+     * If K is a constant distribution, we return P(B-) + P(B) (counting the full
+     * mass of B).</p>
      *
      * @since 3.1
      */
@@ -649,10 +642,17 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         final int binIndex = findBin(x);
         final double pBminus = pBminus(binIndex);
         final double pB = pB(binIndex);
+        final RealDistribution kernel = k(x);
+        if (kernel instanceof ConstantRealDistribution) {
+            if (x < kernel.getNumericalMean()) {
+                return pBminus;
+            } else {
+                return pBminus + pB;
+            }
+        }
         final double[] binBounds = getUpperBounds();
         final double kB = kB(binIndex);
         final double lower = binIndex == 0 ? min : binBounds[binIndex - 1];
-        final RealDistribution kernel = k(x);
         final double withinBinCum =
             (kernel.cumulativeProbability(x) -  kernel.cumulativeProbability(lower)) / kB;
         return pBminus + pB * withinBinCum;
@@ -772,15 +772,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @since 3.1
      */
     @Override
-    public double sample() {
-        return getNextValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @since 3.1
-     */
-    @Override
     public void reseedRandomGenerator(long seed) {
         randomData.reSeed(seed);
     }
@@ -843,15 +834,20 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * The within-bin smoothing kernel.
+     * The within-bin smoothing kernel. Returns a Gaussian distribution
+     * parameterized by {@code bStats}, unless the bin contains only one
+     * observation, in which case a constant distribution is returned.
      *
      * @param bStats summary statistics for the bin
      * @return within-bin kernel parameterized by bStats
      */
     protected RealDistribution getKernel(SummaryStatistics bStats) {
-        // Default to Gaussian
-        return new NormalDistribution(randomData.getRandomGenerator(),
+        if (bStats.getN() == 1 || bStats.getVariance() == 0) {
+            return new ConstantRealDistribution(bStats.getMean());
+        } else {
+            return new NormalDistribution(randomData.getRandomGenerator(),
                 bStats.getMean(), bStats.getStandardDeviation(),
                 NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        }
     }
 }

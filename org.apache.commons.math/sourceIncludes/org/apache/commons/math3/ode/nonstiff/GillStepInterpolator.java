@@ -49,7 +49,6 @@ import org.apache.commons.math3.util.FastMath;
  * the step.</p>
  *
  * @see GillIntegrator
- * @version $Id: GillStepInterpolator.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 1.2
  */
 
@@ -76,15 +75,18 @@ class GillStepInterpolator
    * to create the step interpolators by cloning an uninitialized model
    * and later initializing the copy.
    */
+  // CHECKSTYLE: stop RedundantModifier
+  // the public modifier here is needed for serialization
   public GillStepInterpolator() {
   }
+  // CHECKSTYLE: resume RedundantModifier
 
   /** Copy constructor.
    * @param interpolator interpolator to copy from. The copy is a deep
    * copy: its arrays are separated from the original arrays of the
    * instance
    */
-  public GillStepInterpolator(final GillStepInterpolator interpolator) {
+  GillStepInterpolator(final GillStepInterpolator interpolator) {
     super(interpolator);
   }
 

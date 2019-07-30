@@ -148,7 +148,6 @@ import org.apache.commons.math3.util.MathUtils;
  * Journal on Numerical Analysis 12(4): 617-629, 1975</dd>
  * </dl>
  *
- * @version $Id: SymmLQ.java 1505938 2013-07-23 08:50:10Z luc $
  * @since 3.0
  */
 public class SymmLQ
@@ -381,7 +380,7 @@ public class SymmLQ
          * @param check {@code true} if self-adjointedness of both matrix and
          * preconditioner should be checked
          */
-        public State(final RealLinearOperator a,
+        State(final RealLinearOperator a,
             final RealLinearOperator m,
             final RealVector b,
             final boolean goodb,

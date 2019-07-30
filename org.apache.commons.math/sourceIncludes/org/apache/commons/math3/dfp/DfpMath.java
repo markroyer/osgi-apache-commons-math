@@ -19,7 +19,6 @@ package org.apache.commons.math3.dfp;
 
 /** Mathematical routines for use with {@link Dfp}.
  * The constants are defined in {@link DfpField}
- * @version $Id: DfpMath.java 1538368 2013-11-03 13:57:37Z erans $
  * @since 2.2
  */
 public class DfpMath {
@@ -755,11 +754,6 @@ public class DfpMath {
 
         Dfp y;
         if (x.lessThan(pi.divide(4))) {
-            Dfp c[] = new Dfp[2];
-            c[0] = x;
-            c[1] = zero;
-
-            //y = sinInternal(c);
             y = sinInternal(split(x));
         } else {
             final Dfp c[] = new Dfp[2];

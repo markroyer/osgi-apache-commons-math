@@ -51,7 +51,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * @see ParameterJacobianProvider
  * @see ParameterizedODE
  *
- * @version $Id: JacobianMatrices.java 1538354 2013-11-03 12:48:40Z tn $
  * @since 3.0
  */
 public class JacobianMatrices {
@@ -432,8 +431,8 @@ public class JacobianMatrices {
          * @exception DimensionMismatchException if there is a dimension mismatch between
          * the steps array {@code hY} and the equation dimension
          */
-        public MainStateJacobianWrapper(final FirstOrderDifferentialEquations ode,
-                                        final double[] hY)
+        MainStateJacobianWrapper(final FirstOrderDifferentialEquations ode,
+                                 final double[] hY)
             throws DimensionMismatchException {
             this.ode = ode;
             this.hY = hY.clone();

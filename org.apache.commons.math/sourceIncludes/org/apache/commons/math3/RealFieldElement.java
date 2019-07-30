@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
  * <a href="http://mathworld.wolfram.com/Field.html">field</a>.
  * @param <T> the type of the field elements
  * @see FieldElement
- * @version $Id: RealFieldElement.java 1591835 2014-05-02 09:04:01Z tn $
  * @since 3.2
  */
 public interface RealFieldElement<T> extends FieldElement<T> {
@@ -53,7 +52,7 @@ public interface RealFieldElement<T> extends FieldElement<T> {
 
     /** '&divide;' operator.
      * @param a right hand side parameter of the operator
-     * @return this&divides;a
+     * @return this&divide;a
      */
     T divide(double a);
 
@@ -89,7 +88,7 @@ public interface RealFieldElement<T> extends FieldElement<T> {
     T floor();
 
     /** Get the whole number that is the nearest to the instance, or the even one if x is exactly half way between two integers.
-     * @return a double number r such that r is an integer r - 0.5 <= this <= r + 0.5
+     * @return a double number r such that r is an integer r - 0.5 &le; this &le; r + 0.5
      */
     T rint();
 
@@ -131,7 +130,7 @@ public interface RealFieldElement<T> extends FieldElement<T> {
 
     /**
      * Returns the hypotenuse of a triangle with sides {@code this} and {@code y}
-     * - sqrt(<i>this</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)<br/>
+     * - sqrt(<i>this</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
      * avoiding intermediate overflow or underflow.
      *
      * <ul>

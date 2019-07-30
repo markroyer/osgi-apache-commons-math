@@ -45,7 +45,6 @@ import org.apache.commons.math3.optim.nonlinear.vector.Weight;
  *
  * @param <T> Function to use for the fit.
  *
- * @version $Id: CurveFitter.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 2.0
  * @deprecated As of 3.3. Please use {@link AbstractCurveFitter} and
  * {@link WeightedObservedPoints} instead.
@@ -191,7 +190,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
         /**
          * @param f function to fit.
          */
-        public TheoreticalValuesFunction(final ParametricUnivariateFunction f) {
+        TheoreticalValuesFunction(final ParametricUnivariateFunction f) {
             this.f = f;
         }
 
@@ -219,6 +218,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
          */
         public ModelFunctionJacobian getModelFunctionJacobian() {
             return new ModelFunctionJacobian(new MultivariateMatrixFunction() {
+                    /** {@inheritDoc} */
                     public double[][] value(double[] point) {
                         final double[][] jacobian = new double[observations.size()][];
                         int i = 0;

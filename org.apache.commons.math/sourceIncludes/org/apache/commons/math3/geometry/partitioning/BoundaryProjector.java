@@ -27,7 +27,6 @@ import org.apache.commons.math3.util.FastMath;
 /** Local tree visitor to compute projection on boundary.
  * @param <S> Type of the space.
  * @param <T> Type of the sub-space.
- * @version $Id: BoundaryProjector.java 1560115 2014-01-21 17:49:13Z luc $
  * @since 3.3
  */
 class BoundaryProjector<S extends Space, T extends Space> implements BSPTreeVisitor<S> {
@@ -47,7 +46,7 @@ class BoundaryProjector<S extends Space, T extends Space> implements BSPTreeVisi
     /** Simple constructor.
      * @param original original point
      */
-    public BoundaryProjector(final Point<S> original) {
+    BoundaryProjector(final Point<S> original) {
         this.original  = original;
         this.projected = null;
         this.leaf      = null;
@@ -160,7 +159,7 @@ class BoundaryProjector<S extends Space, T extends Space> implements BSPTreeVisi
             if (region != null) {
                 list.add(region);
             }
-        };
+        }
     }
 
     /** Check if a projected point lies on a boundary part.

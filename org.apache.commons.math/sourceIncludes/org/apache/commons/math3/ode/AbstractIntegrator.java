@@ -38,12 +38,11 @@ import org.apache.commons.math3.ode.events.EventState;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math3.ode.sampling.StepHandler;
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Incrementor;
+import org.apache.commons.math3.util.IntegerSequence;
 import org.apache.commons.math3.util.Precision;
 
 /**
  * Base class managing common boilerplate for all integrators.
- * @version $Id: AbstractIntegrator.java 1517418 2013-08-26 03:18:55Z dbrosius $
  * @since 2.0
  */
 public abstract class AbstractIntegrator implements FirstOrderIntegrator {
@@ -73,7 +72,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     private final String name;
 
     /** Counter for number of evaluations. */
-    private Incrementor evaluations;
+    private IntegerSequence.Incrementor evaluations;
 
     /** Differential equations to integrate. */
     private transient ExpandableStatefulODE expandable;
@@ -88,9 +87,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         stepSize  = Double.NaN;
         eventsStates = new ArrayList<EventState>();
         statesInitialized = false;
-        evaluations = new Incrementor();
-        setMaxEvaluations(-1);
-        evaluations.resetCount();
+        evaluations = IntegerSequence.Incrementor.create().withMaximalCount(Integer.MAX_VALUE);
     }
 
     /** Build an instance with a null name.
@@ -165,7 +162,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
     /** {@inheritDoc} */
     public void setMaxEvaluations(int maxEvaluations) {
-        evaluations.setMaximalCount((maxEvaluations < 0) ? Integer.MAX_VALUE : maxEvaluations);
+        evaluations = evaluations.withMaximalCount((maxEvaluations < 0) ? Integer.MAX_VALUE : maxEvaluations);
     }
 
     /** {@inheritDoc} */
@@ -185,7 +182,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      */
     protected void initIntegration(final double t0, final double[] y0, final double t) {
 
-        evaluations.resetCount();
+        evaluations = evaluations.withStart(0);
 
         for (final EventState state : eventsStates) {
             state.setExpandable(expandable);
@@ -218,8 +215,18 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     /** Get the evaluations counter.
      * @return evaluations counter
      * @since 3.2
+     * @deprecated as of 3.6 replaced with {@link #getCounter()}
      */
-    protected Incrementor getEvaluationsCounter() {
+    @Deprecated
+    protected org.apache.commons.math3.util.Incrementor getEvaluationsCounter() {
+        return org.apache.commons.math3.util.Incrementor.wrap(evaluations);
+    }
+
+    /** Get the evaluations counter.
+     * @return evaluations counter
+     * @since 3.6
+     */
+    protected IntegerSequence.Incrementor getCounter() {
         return evaluations;
     }
 
@@ -279,10 +286,13 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param yDot placeholder array where to put the time derivative of the state vector
      * @exception MaxCountExceededException if the number of functions evaluations is exceeded
      * @exception DimensionMismatchException if arrays dimensions do not match equations settings
+     * @exception NullPointerException if the ODE equations have not been set (i.e. if this method
+     * is called outside of a call to {@link #integrate(ExpandableStatefulODE, double)} or {@link
+     * #integrate(FirstOrderDifferentialEquations, double, double[], double, double[])})
      */
     public void computeDerivatives(final double t, final double[] y, final double[] yDot)
-        throws MaxCountExceededException, DimensionMismatchException {
-        evaluations.incrementCount();
+        throws MaxCountExceededException, DimensionMismatchException, NullPointerException {
+        evaluations.increment();
         expandable.computeDerivatives(t, y, yDot);
     }
 
@@ -384,9 +394,8 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 }
 
                 boolean needReset = false;
-                for (final EventState state : eventsStates) {
-                    needReset =  needReset || state.reset(eventT, eventYComplete);
-                }
+                resetOccurred = false;
+                needReset = currentEvent.reset(eventT, eventYComplete);
                 if (needReset) {
                     // some event handler has triggered changes that
                     // invalidate the derivatives, we need to recompute them

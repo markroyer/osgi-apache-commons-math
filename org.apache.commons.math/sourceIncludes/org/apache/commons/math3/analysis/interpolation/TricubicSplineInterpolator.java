@@ -26,8 +26,9 @@ import org.apache.commons.math3.util.MathArrays;
  * Generates a tricubic interpolating function.
  *
  * @since 2.2
- * @version $Id: TricubicSplineInterpolator.java 1455194 2013-03-11 15:45:54Z luc $
+ * @deprecated To be removed in 4.0 (see MATH-1166).
  */
+@Deprecated
 public class TricubicSplineInterpolator
     implements TrivariateGridInterpolator {
     /**
@@ -77,7 +78,7 @@ public class TricubicSplineInterpolator
             }
         }
 
-        final BicubicSplineInterpolator bsi = new BicubicSplineInterpolator();
+        final BicubicSplineInterpolator bsi = new BicubicSplineInterpolator(true);
 
         // For each line x[i] (0 <= i < xLen), construct a 2D spline in y and z
         final BicubicSplineInterpolatingFunction[] xSplineYZ
@@ -176,7 +177,7 @@ public class TricubicSplineInterpolator
 
     /**
      * Compute the next index of an array, clipping if necessary.
-     * It is assumed (but not checked) that {@code i} is larger than or equal to 0}.
+     * It is assumed (but not checked) that {@code i} is larger than or equal to 0.
      *
      * @param i Index
      * @param max Upper limit of the array

@@ -40,7 +40,6 @@ import org.apache.commons.math3.util.Precision;
  * {@link DerivativeStructure} and use less memory.
  * </p>
  *
- * @version $Id: SparseGradient.java 1536147 2013-10-27 14:39:16Z luc $
  * @since 3.3
  */
 public class SparseGradient implements RealFieldElement<SparseGradient>, Serializable {
@@ -433,7 +432,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
 
     /**
      * Returns the hypotenuse of a triangle with sides {@code x} and {@code y}
-     * - sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)<br/>
+     * - sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
      * avoiding intermediate overflow or underflow.
      *
      * <ul>

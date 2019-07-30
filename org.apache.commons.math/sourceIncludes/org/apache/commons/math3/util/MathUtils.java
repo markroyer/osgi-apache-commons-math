@@ -19,6 +19,7 @@ package org.apache.commons.math3.util;
 
 import java.util.Arrays;
 
+import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NotFiniteNumberException;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -32,14 +33,20 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * @see Precision
  * @see MathArrays
  *
- * @version $Id: MathUtils.java 1591835 2014-05-02 09:04:01Z tn $
  */
 public final class MathUtils {
     /**
-     * 2 &pi;.
+     * \(2\pi\)
      * @since 2.1
      */
     public static final double TWO_PI = 2 * FastMath.PI;
+
+    /**
+     * \(\pi^2\)
+     * @since 3.4
+     */
+    public static final double PI_SQUARED = FastMath.PI * FastMath.PI;
+
 
     /**
      * Class contains only static methods.
@@ -101,6 +108,28 @@ public final class MathUtils {
      */
      public static double normalizeAngle(double a, double center) {
          return a - TWO_PI * FastMath.floor((a + FastMath.PI - center) / TWO_PI);
+     }
+
+     /** Find the maximum of two field elements.
+      * @param <T> the type of the field elements
+      * @param e1 first element
+      * @param e2 second element
+      * @return max(a1, e2)
+      * @since 3.6
+      */
+     public static <T extends RealFieldElement<T>> T max(final T e1, final T e2) {
+         return e1.subtract(e2).getReal() >= 0 ? e1 : e2;
+     }
+
+     /** Find the minimum of two field elements.
+      * @param <T> the type of the field elements
+      * @param e1 first element
+      * @param e2 second element
+      * @return min(a1, e2)
+      * @since 3.6
+      */
+     public static <T extends RealFieldElement<T>> T min(final T e1, final T e2) {
+         return e1.subtract(e2).getReal() >= 0 ? e2 : e1;
      }
 
     /**

@@ -32,7 +32,6 @@ import org.apache.commons.math3.geometry.spherical.oned.ArcsSet;
 import org.apache.commons.math3.geometry.spherical.oned.S1Point;
 
 /** Visitor building edges.
- * @version $Id: EdgesBuilder.java 1561506 2014-01-26 15:31:18Z luc $
  * @since 3.3
  */
 class EdgesBuilder implements BSPTreeVisitor<Sphere2D> {
@@ -53,7 +52,7 @@ class EdgesBuilder implements BSPTreeVisitor<Sphere2D> {
      * @param root tree root
      * @param tolerance below which points are consider to be identical
      */
-    public EdgesBuilder(final BSPTree<Sphere2D> root, final double tolerance) {
+    EdgesBuilder(final BSPTree<Sphere2D> root, final double tolerance) {
         this.root            = root;
         this.tolerance       = tolerance;
         this.edgeToNode      = new IdentityHashMap<Edge, BSPTree<Sphere2D>>();

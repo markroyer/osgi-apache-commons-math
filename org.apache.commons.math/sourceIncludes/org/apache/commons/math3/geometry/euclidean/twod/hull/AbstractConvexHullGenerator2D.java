@@ -28,7 +28,6 @@ import org.apache.commons.math3.util.MathUtils;
  * Abstract base class for convex hull generators in the two-dimensional euclidean space.
  *
  * @since 3.3
- * @version $Id: AbstractConvexHullGenerator2D.java 1568752 2014-02-16 12:19:51Z tn $
  */
 abstract class AbstractConvexHullGenerator2D implements ConvexHullGenerator2D {
 

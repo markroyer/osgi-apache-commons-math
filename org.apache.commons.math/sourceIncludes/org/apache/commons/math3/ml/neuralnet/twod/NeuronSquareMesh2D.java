@@ -19,6 +19,7 @@ package org.apache.commons.math3.ml.neuralnet.twod;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.io.Serializable;
 import java.io.ObjectInputStream;
 import org.apache.commons.math3.ml.neuralnet.Neuron;
@@ -38,10 +39,13 @@ import org.apache.commons.math3.exception.MathInternalError;
  *  Self Organizing Feature Map</a>.
  *
  * @see org.apache.commons.math3.ml.neuralnet.sofm
- * @version $Id: NeuronSquareMesh2D.java 1566396 2014-02-09 20:36:24Z tn $
  * @since 3.3
  */
-public class NeuronSquareMesh2D implements Serializable {
+public class NeuronSquareMesh2D
+    implements Iterable<Neuron>,
+               Serializable {
+    /** Serial version ID */
+    private static final long serialVersionUID = 1L;
     /** Underlying network. */
     private final Network network;
     /** Number of rows. */
@@ -60,6 +64,31 @@ public class NeuronSquareMesh2D implements Serializable {
      * instance).
      */
     private final long[][] identifiers;
+
+    /**
+     * Horizontal (along row) direction.
+     * @since 3.6
+     */
+    public enum HorizontalDirection {
+        /** Column at the right of the current column. */
+       RIGHT,
+       /** Current column. */
+       CENTER,
+       /** Column at the left of the current column. */
+       LEFT,
+    }
+    /**
+     * Vertical (along column) direction.
+     * @since 3.6
+     */
+    public enum VerticalDirection {
+        /** Row above the current row. */
+        UP,
+        /** Current row. */
+        CENTER,
+        /** Row below the current row. */
+        DOWN,
+    }
 
     /**
      * Constructor with restricted access, solely used for deserialization.
@@ -171,6 +200,63 @@ public class NeuronSquareMesh2D implements Serializable {
     }
 
     /**
+     * Constructor with restricted access, solely used for making a
+     * {@link #copy() deep copy}.
+     *
+     * @param wrapRowDim Whether to wrap the first dimension (i.e the first
+     * and last neurons will be linked together).
+     * @param wrapColDim Whether to wrap the second dimension (i.e the first
+     * and last neurons will be linked together).
+     * @param neighbourhoodType Neighbourhood type.
+     * @param net Underlying network.
+     * @param idGrid Neuron identifiers.
+     */
+    private NeuronSquareMesh2D(boolean wrapRowDim,
+                               boolean wrapColDim,
+                               SquareNeighbourhood neighbourhoodType,
+                               Network net,
+                               long[][] idGrid) {
+        numberOfRows = idGrid.length;
+        numberOfColumns = idGrid[0].length;
+        wrapRows = wrapRowDim;
+        wrapColumns = wrapColDim;
+        neighbourhood = neighbourhoodType;
+        network = net;
+        identifiers = idGrid;
+    }
+
+    /**
+     * Performs a deep copy of this instance.
+     * Upon return, the copied and original instances will be independent:
+     * Updating one will not affect the other.
+     *
+     * @return a new instance with the same state as this instance.
+     * @since 3.6
+     */
+    public synchronized NeuronSquareMesh2D copy() {
+        final long[][] idGrid = new long[numberOfRows][numberOfColumns];
+        for (int r = 0; r < numberOfRows; r++) {
+            for (int c = 0; c < numberOfColumns; c++) {
+                idGrid[r][c] = identifiers[r][c];
+            }
+        }
+
+        return new NeuronSquareMesh2D(wrapRows,
+                                      wrapColumns,
+                                      neighbourhood,
+                                      network.copy(),
+                                      idGrid);
+    }
+
+    /**
+     * {@inheritDoc}
+     *  @since 3.6
+     */
+    public Iterator<Neuron> iterator() {
+        return network.iterator();
+    }
+
+    /**
      * Retrieves the underlying network.
      * A reference is returned (enabling, for example, the network to be
      * trained).
@@ -203,12 +289,16 @@ public class NeuronSquareMesh2D implements Serializable {
 
     /**
      * Retrieves the neuron at location {@code (i, j)} in the map.
+     * The neuron at position {@code (0, 0)} is located at the upper-left
+     * corner of the map.
      *
      * @param i Row index.
      * @param j Column index.
      * @return the neuron at {@code (i, j)}.
      * @throws OutOfRangeException if {@code i} or {@code j} is
      * out of range.
+     *
+     * @see #getNeuron(int,int,HorizontalDirection,VerticalDirection)
      */
     public Neuron getNeuron(int i,
                             int j) {
@@ -222,6 +312,110 @@ public class NeuronSquareMesh2D implements Serializable {
         }
 
         return network.getNeuron(identifiers[i][j]);
+    }
+
+    /**
+     * Retrieves the neuron at {@code (location[0], location[1])} in the map.
+     * The neuron at position {@code (0, 0)} is located at the upper-left
+     * corner of the map.
+     *
+     * @param row Row index.
+     * @param col Column index.
+     * @param alongRowDir Direction along the given {@code row} (i.e. an
+     * offset will be added to the given <em>column</em> index.
+     * @param alongColDir Direction along the given {@code col} (i.e. an
+     * offset will be added to the given <em>row</em> index.
+     * @return the neuron at the requested location, or {@code null} if
+     * the location is not on the map.
+     *
+     * @see #getNeuron(int,int)
+     */
+    public Neuron getNeuron(int row,
+                            int col,
+                            HorizontalDirection alongRowDir,
+                            VerticalDirection alongColDir) {
+        final int[] location = getLocation(row, col, alongRowDir, alongColDir);
+
+        return location == null ? null : getNeuron(location[0], location[1]);
+    }
+
+    /**
+     * Computes the location of a neighbouring neuron.
+     * It will return {@code null} if the resulting location is not part
+     * of the map.
+     * Position {@code (0, 0)} is at the upper-left corner of the map.
+     *
+     * @param row Row index.
+     * @param col Column index.
+     * @param alongRowDir Direction along the given {@code row} (i.e. an
+     * offset will be added to the given <em>column</em> index.
+     * @param alongColDir Direction along the given {@code col} (i.e. an
+     * offset will be added to the given <em>row</em> index.
+     * @return an array of length 2 containing the indices of the requested
+     * location, or {@code null} if that location is not part of the map.
+     *
+     * @see #getNeuron(int,int)
+     */
+    private int[] getLocation(int row,
+                              int col,
+                              HorizontalDirection alongRowDir,
+                              VerticalDirection alongColDir) {
+        final int colOffset;
+        switch (alongRowDir) {
+        case LEFT:
+            colOffset = -1;
+            break;
+        case RIGHT:
+            colOffset = 1;
+            break;
+        case CENTER:
+            colOffset = 0;
+            break;
+        default:
+            // Should never happen.
+            throw new MathInternalError();
+        }
+        int colIndex = col + colOffset;
+        if (wrapColumns) {
+            if (colIndex < 0) {
+                colIndex += numberOfColumns;
+            } else {
+                colIndex %= numberOfColumns;
+            }
+        }
+
+        final int rowOffset;
+        switch (alongColDir) {
+        case UP:
+            rowOffset = -1;
+            break;
+        case DOWN:
+            rowOffset = 1;
+            break;
+        case CENTER:
+            rowOffset = 0;
+            break;
+        default:
+            // Should never happen.
+            throw new MathInternalError();
+        }
+        int rowIndex = row + rowOffset;
+        if (wrapRows) {
+            if (rowIndex < 0) {
+                rowIndex += numberOfRows;
+            } else {
+                rowIndex %= numberOfRows;
+            }
+        }
+
+        if (rowIndex < 0 ||
+            rowIndex >= numberOfRows ||
+            colIndex < 0 ||
+            colIndex >= numberOfColumns) {
+            return null;
+        } else {
+            return new int[] { rowIndex, colIndex };
+        }
     }
 
     /**

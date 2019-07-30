@@ -36,7 +36,6 @@ import org.apache.commons.math3.util.Precision;
  * which is closest to the origin. Abscissa increases in the line
  * direction.</p>
 
- * @version $Id: Line.java 1555176 2014-01-03 18:07:59Z luc $
  * @since 3.0
  */
 public class Line implements Embedding<Euclidean3D, Euclidean1D> {

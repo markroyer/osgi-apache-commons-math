@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
  * provided <code>maxTime</code> value. Once the elapsed time reaches the configured <code>maxTime</code> value,
  * {@link #isSatisfied(Population)} returns true.
  *
- * @version $Id: FixedElapsedTime.java 1385297 2012-09-16 16:05:57Z tn $
  * @since 3.1
  */
 public class FixedElapsedTime implements StoppingCondition {

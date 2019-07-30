@@ -17,7 +17,11 @@
 package org.apache.commons.math3.distribution;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NotANumberException;
@@ -35,7 +39,6 @@ import org.apache.commons.math3.util.Pair;
  * Duplicate values are allowed. Probabilities of duplicate values are combined
  * when computing cumulative probabilities and statistics.</p>
  *
- * @version $Id: EnumeratedIntegerDistribution.java 1456769 2013-03-15 04:51:34Z psteitz $
  * @since 3.2
  */
 public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
@@ -52,6 +55,13 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
     /**
      * Create a discrete distribution using the given probability mass function
      * definition.
+     * <p>
+     * <b>Note:</b> this constructor will implicitly create an instance of
+     * {@link Well19937c} as random generator to be used for sampling only (see
+     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
+     * needed for the created distribution, it is advised to pass {@code null}
+     * as random generator via the appropriate constructors to avoid the
+     * additional initialisation overhead.
      *
      * @param singletons array of random variable values.
      * @param probabilities array of probabilities.
@@ -87,6 +97,61 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
         throws DimensionMismatchException, NotPositiveException, MathArithmeticException,
                 NotFiniteNumberException, NotANumberException {
         super(rng);
+        innerDistribution = new EnumeratedDistribution<Integer>(
+                rng, createDistribution(singletons, probabilities));
+    }
+
+    /**
+     * Create a discrete integer-valued distribution from the input data.  Values are assigned
+     * mass based on their frequency.
+     *
+     * @param rng random number generator used for sampling
+     * @param data input dataset
+     * @since 3.6
+     */
+    public EnumeratedIntegerDistribution(final RandomGenerator rng, final int[] data) {
+        super(rng);
+        final Map<Integer, Integer> dataMap = new HashMap<Integer, Integer>();
+        for (int value : data) {
+            Integer count = dataMap.get(value);
+            if (count == null) {
+                count = 0;
+            }
+            dataMap.put(value, ++count);
+        }
+        final int massPoints = dataMap.size();
+        final double denom = data.length;
+        final int[] values = new int[massPoints];
+        final double[] probabilities = new double[massPoints];
+        int index = 0;
+        for (Entry<Integer, Integer> entry : dataMap.entrySet()) {
+            values[index] = entry.getKey();
+            probabilities[index] = entry.getValue().intValue() / denom;
+            index++;
+        }
+        innerDistribution = new EnumeratedDistribution<Integer>(rng, createDistribution(values, probabilities));
+    }
+
+    /**
+     * Create a discrete integer-valued distribution from the input data.  Values are assigned
+     * mass based on their frequency.  For example, [0,1,1,2] as input creates a distribution
+     * with values 0, 1 and 2 having probability masses 0.25, 0.5 and 0.25 respectively,
+     *
+     * @param data input dataset
+     * @since 3.6
+     */
+    public EnumeratedIntegerDistribution(final int[] data) {
+        this(new Well19937c(), data);
+    }
+
+    /**
+     * Create the list of Pairs representing the distribution from singletons and probabilities.
+     *
+     * @param singletons values
+     * @param probabilities probabilities
+     * @return list of value/probability pairs
+     */
+    private static List<Pair<Integer, Double>>  createDistribution(int[] singletons, double[] probabilities) {
         if (singletons.length != probabilities.length) {
             throw new DimensionMismatchException(probabilities.length, singletons.length);
         }
@@ -96,8 +161,8 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
         for (int i = 0; i < singletons.length; i++) {
             samples.add(new Pair<Integer, Double>(singletons[i], probabilities[i]));
         }
+        return samples;
 
-        innerDistribution = new EnumeratedDistribution<Integer>(rng, samples);
     }
 
     /**

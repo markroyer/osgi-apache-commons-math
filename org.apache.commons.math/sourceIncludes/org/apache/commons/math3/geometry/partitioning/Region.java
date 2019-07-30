@@ -48,13 +48,12 @@ import org.apache.commons.math3.geometry.Point;
 
  * @param <S> Type of the space.
 
- * @version $Id: Region.java 1566416 2014-02-09 20:56:55Z luc $
  * @since 3.0
  */
 public interface Region<S extends Space> {
 
     /** Enumerate for the location of a point with respect to the region. */
-    public static enum Location {
+    enum Location {
         /** Code for points inside the partition. */
         INSIDE,
 
@@ -205,7 +204,10 @@ public interface Region<S extends Space> {
      * Side.MINUS}, {@link Side#BOTH Side.BOTH} or {@link Side#HYPER
      * Side.HYPER} (the latter result can occur only if the tree
      * contains only one cut hyperplane)
+     * @deprecated as of 3.6, this method which was only intended for
+     * internal use is not used anymore
      */
+    @Deprecated
     Side side(final Hyperplane<S> hyperplane);
 
     /** Get the parts of a sub-hyperplane that are contained in the region.

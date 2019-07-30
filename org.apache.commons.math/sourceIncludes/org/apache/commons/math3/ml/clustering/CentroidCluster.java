@@ -23,7 +23,6 @@ package org.apache.commons.math3.ml.clustering;
  * of the original data set.
  *
  * @param <T> the type of points that can be clustered
- * @version $Id: CentroidCluster.java 1519184 2013-08-31 15:22:59Z tn $
  * @since 3.2
  */
 public class CentroidCluster<T extends Clusterable> extends Cluster<T> {

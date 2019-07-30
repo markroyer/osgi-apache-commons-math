@@ -49,7 +49,6 @@ import org.apache.commons.math3.ode.sampling.StepInterpolator;
  * step.</p>
  *
  * @see ClassicalRungeKuttaIntegrator
- * @version $Id: ClassicalRungeKuttaStepInterpolator.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 1.2
  */
 
@@ -69,15 +68,18 @@ class ClassicalRungeKuttaStepInterpolator
      * interpolators by cloning an uninitialized model and latter initializing
      * the copy.
      */
+    // CHECKSTYLE: stop RedundantModifier
+    // the public modifier here is needed for serialization
     public ClassicalRungeKuttaStepInterpolator() {
     }
+    // CHECKSTYLE: resume RedundantModifier
 
     /** Copy constructor.
      * @param interpolator interpolator to copy from. The copy is a deep
      * copy: its arrays are separated from the original arrays of the
      * instance
      */
-    public ClassicalRungeKuttaStepInterpolator(final ClassicalRungeKuttaStepInterpolator interpolator) {
+    ClassicalRungeKuttaStepInterpolator(final ClassicalRungeKuttaStepInterpolator interpolator) {
         super(interpolator);
     }
 

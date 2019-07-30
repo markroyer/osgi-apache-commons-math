@@ -24,7 +24,6 @@ package org.apache.commons.math3.optimization;
  * <br/>
  * Immutable class.
  *
- * @version $Id: Target.java 1591835 2014-05-02 09:04:01Z tn $
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.1
  */

@@ -32,7 +32,6 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
  * Population of chromosomes represented by a {@link List}.
  *
  * @since 2.0
- * @version $Id: ListPopulation.java 1422195 2012-12-15 06:45:18Z psteitz $
  */
 public abstract class ListPopulation implements Population {
 
@@ -84,7 +83,7 @@ public abstract class ListPopulation implements Population {
     /**
      * Sets the list of chromosomes.
      * <p>
-     * Note: this method removed all existing chromosomes in the population and adds all chromosomes
+     * Note: this method removes all existing chromosomes in the population and adds all chromosomes
      * of the specified list to the population.
      *
      * @param chromosomes the list of chromosomes

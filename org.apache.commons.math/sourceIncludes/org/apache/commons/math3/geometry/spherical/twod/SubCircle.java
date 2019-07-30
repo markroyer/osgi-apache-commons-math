@@ -20,14 +20,12 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.Region;
-import org.apache.commons.math3.geometry.partitioning.Side;
 import org.apache.commons.math3.geometry.spherical.oned.Arc;
 import org.apache.commons.math3.geometry.spherical.oned.ArcsSet;
 import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
 import org.apache.commons.math3.util.FastMath;
 
 /** This class represents a sub-hyperplane for {@link Circle}.
- * @version $Id: SubCircle.java 1555088 2014-01-03 13:47:35Z luc $
  * @since 3.3
  */
 public class SubCircle extends AbstractSubHyperplane<Sphere2D, Sphere1D> {
@@ -50,36 +48,15 @@ public class SubCircle extends AbstractSubHyperplane<Sphere2D, Sphere1D> {
 
     /** {@inheritDoc} */
     @Override
-    public Side side(final Hyperplane<Sphere2D> hyperplane) {
-
-        final Circle thisCircle  = (Circle) getHyperplane();
-        final Circle otherCircle = (Circle) hyperplane;
-        final double angle = Vector3D.angle(thisCircle.getPole(), otherCircle.getPole());
-
-        if (angle < thisCircle.getTolerance() || angle > FastMath.PI - thisCircle.getTolerance()) {
-            // the two circles are aligned or opposite
-            return Side.HYPER;
-        } else {
-            // the two circles intersect each other
-            return ((ArcsSet) getRemainingRegion()).side(thisCircle.getInsideArc(otherCircle));
-        }
-
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public SplitSubHyperplane<Sphere2D> split(final Hyperplane<Sphere2D> hyperplane) {
 
         final Circle thisCircle   = (Circle) getHyperplane();
         final Circle otherCircle  = (Circle) hyperplane;
         final double angle = Vector3D.angle(thisCircle.getPole(), otherCircle.getPole());
 
-        if (angle < thisCircle.getTolerance()) {
-            // the two circles are aligned
-            return new SplitSubHyperplane<Sphere2D>(null, this);
-        } else if (angle > FastMath.PI - thisCircle.getTolerance()) {
-            // the two circles are opposite
-            return new SplitSubHyperplane<Sphere2D>(this, null);
+        if (angle < thisCircle.getTolerance() || angle > FastMath.PI - thisCircle.getTolerance()) {
+            // the two circles are aligned or opposite
+            return new SplitSubHyperplane<Sphere2D>(null, null);
         } else {
             // the two circles intersect each other
             final Arc    arc          = thisCircle.getInsideArc(otherCircle);

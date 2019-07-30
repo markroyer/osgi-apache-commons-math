@@ -44,14 +44,13 @@ package org.apache.commons.math3.ode.events;
  * error (this event handling feature is available for all integrators,
  * including fixed step ones).</p>
  *
- * @version $Id: EventHandler.java 1451658 2013-03-01 17:36:46Z luc $
  * @since 1.2
  */
 
 public interface EventHandler  {
 
     /** Enumerate for actions to be performed when an event occurs. */
-    public enum Action {
+    enum Action {
 
         /** Stop indicator.
          * <p>This value should be used as the return value of the {@link

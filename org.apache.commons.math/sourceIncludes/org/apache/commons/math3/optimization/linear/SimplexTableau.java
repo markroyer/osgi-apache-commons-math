@@ -59,7 +59,6 @@ import org.apache.commons.math3.util.Precision;
  * a1: Artificial variable</br>
  * RHS: Right hand side</br>
  * </p>
- * @version $Id: SimplexTableau.java 1524213 2013-09-17 20:32:50Z tn $
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 2.0
  */
@@ -576,6 +575,7 @@ class SimplexTableau implements Serializable {
         return tableau.getData();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
 
@@ -598,6 +598,7 @@ class SimplexTableau implements Serializable {
       return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return Boolean.valueOf(restrictToNonNegative).hashCode() ^

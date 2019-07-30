@@ -30,7 +30,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 /**
  * Utilities for manipulating function objects.
  *
- * @version $Id: FunctionUtils.java 1499808 2013-07-04 17:00:42Z sebb $
  * @since 3.0
  */
 public class FunctionUtils {
@@ -41,9 +40,9 @@ public class FunctionUtils {
 
     /**
      * Composes functions.
-     * <br/>
+     * <p>
      * The functions in the argument list are composed sequentially, in the
-     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).
+     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).</p>
      *
      * @param f List of functions.
      * @return the composite function.
@@ -63,9 +62,9 @@ public class FunctionUtils {
 
     /**
      * Composes functions.
-     * <br/>
+     * <p>
      * The functions in the argument list are composed sequentially, in the
-     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).
+     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).</p>
      *
      * @param f List of functions.
      * @return the composite function.
@@ -97,9 +96,9 @@ public class FunctionUtils {
 
     /**
      * Composes functions.
-     * <br/>
+     * <p>
      * The functions in the argument list are composed sequentially, in the
-     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).
+     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).</p>
      *
      * @param f List of functions.
      * @return the composite function.
@@ -315,8 +314,8 @@ public class FunctionUtils {
     }
 
     /**
-     * Returns the univariate function <br/>
-     * {@code h(x) = combiner(f(x), g(x))}.
+     * Returns the univariate function
+     * {@code h(x) = combiner(f(x), g(x)).}
      *
      * @param combiner Combiner function.
      * @param f Function.
@@ -377,7 +376,7 @@ public class FunctionUtils {
      * Creates a unary function by fixing the first argument of a binary function.
      *
      * @param f Binary function.
-     * @param fixed Value to which the first argument of {@code f} is set.
+     * @param fixed value to which the first argument of {@code f} is set.
      * @return the unary function h(x) = f(fixed, x)
      */
     public static UnivariateFunction fix1stArgument(final BivariateFunction f,
@@ -393,7 +392,7 @@ public class FunctionUtils {
      * Creates a unary function by fixing the second argument of a binary function.
      *
      * @param f Binary function.
-     * @param fixed Value to which the second argument of {@code f} is set.
+     * @param fixed value to which the second argument of {@code f} is set.
      * @return the unary function h(x) = f(x, fixed)
      */
     public static UnivariateFunction fix2ndArgument(final BivariateFunction f,
@@ -408,10 +407,10 @@ public class FunctionUtils {
 
     /**
      * Samples the specified univariate real function on the specified interval.
-     * <br/>
+     * <p>
      * The interval is divided equally into {@code n} sections and sample points
      * are taken from {@code min} to {@code max - (max - min) / n}; therefore
-     * {@code f} is not sampled at the upper bound {@code max}.
+     * {@code f} is not sampled at the upper bound {@code max}.</p>
      *
      * @param f Function to be sampled
      * @param min Lower bound of the interval (included).
@@ -443,7 +442,9 @@ public class FunctionUtils {
         return s;
     }
 
-    /** Convert a {@link UnivariateDifferentiableFunction} into a {@link DifferentiableUnivariateFunction}.
+    /**
+     * Convert a {@link UnivariateDifferentiableFunction} into a {@link DifferentiableUnivariateFunction}.
+     *
      * @param f function to convert
      * @return converted function
      * @deprecated this conversion method is temporary in version 3.1, as the {@link
@@ -471,10 +472,11 @@ public class FunctionUtils {
         };
     }
 
-    /** Convert a {@link DifferentiableUnivariateFunction} into a {@link UnivariateDifferentiableFunction}.
+    /**
+     * Convert a {@link DifferentiableUnivariateFunction} into a {@link UnivariateDifferentiableFunction}.
      * <p>
      * Note that the converted function is able to handle {@link DerivativeStructure} up to order one.
-     * If the function is called with higher order, a {@link NumberIsTooLargeException} will be thrown.
+     * If the function is called with higher order, a {@link NumberIsTooLargeException} is thrown.
      * </p>
      * @param f function to convert
      * @return converted function
@@ -519,7 +521,9 @@ public class FunctionUtils {
         };
     }
 
-    /** Convert a {@link MultivariateDifferentiableFunction} into a {@link DifferentiableMultivariateFunction}.
+    /**
+     * Convert a {@link MultivariateDifferentiableFunction} into a {@link DifferentiableMultivariateFunction}.
+     *
      * @param f function to convert
      * @return converted function
      * @deprecated this conversion method is temporary in version 3.1, as the {@link
@@ -560,6 +564,7 @@ public class FunctionUtils {
                 };
             }
 
+            /** {@inheritDoc} */
             public MultivariateVectorFunction gradient() {
                 return new MultivariateVectorFunction() {
                     /** {@inheritDoc} */
@@ -592,7 +597,8 @@ public class FunctionUtils {
         };
     }
 
-    /** Convert a {@link DifferentiableMultivariateFunction} into a {@link MultivariateDifferentiableFunction}.
+    /**
+     * Convert a {@link DifferentiableMultivariateFunction} into a {@link MultivariateDifferentiableFunction}.
      * <p>
      * Note that the converted function is able to handle {@link DerivativeStructure} elements
      * that all have the same number of free parameters and order, and with order at most 1.
@@ -666,7 +672,9 @@ public class FunctionUtils {
         };
     }
 
-    /** Convert a {@link MultivariateDifferentiableVectorFunction} into a {@link DifferentiableMultivariateVectorFunction}.
+    /**
+     * Convert a {@link MultivariateDifferentiableVectorFunction} into a {@link DifferentiableMultivariateVectorFunction}.
+     *
      * @param f function to convert
      * @return converted function
      * @deprecated this conversion method is temporary in version 3.1, as the {@link
@@ -681,6 +689,7 @@ public class FunctionUtils {
                 return f.value(x);
             }
 
+            /** {@inheritDoc} */
             public MultivariateMatrixFunction jacobian() {
                 return new MultivariateMatrixFunction() {
                     /** {@inheritDoc} */
@@ -715,7 +724,8 @@ public class FunctionUtils {
         };
     }
 
-    /** Convert a {@link DifferentiableMultivariateVectorFunction} into a {@link MultivariateDifferentiableVectorFunction}.
+    /**
+     * Convert a {@link DifferentiableMultivariateVectorFunction} into a {@link MultivariateDifferentiableVectorFunction}.
      * <p>
      * Note that the converted function is able to handle {@link DerivativeStructure} elements
      * that all have the same number of free parameters and order, and with order at most 1.

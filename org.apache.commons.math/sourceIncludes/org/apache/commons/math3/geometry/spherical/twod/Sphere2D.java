@@ -30,7 +30,6 @@ import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
  * MathWorld), i.e. the 2-sphere is the two-dimensional surface
  * defined in 3D as x<sup>2</sup>+y<sup>2</sup>+z<sup>2</sup>=1.
  * </p>
- * @version $Id: Sphere2D.java 1554648 2014-01-01 17:24:37Z luc $
  * @since 3.3
  */
 public class Sphere2D implements Serializable, Space {

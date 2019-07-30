@@ -33,7 +33,6 @@ import org.apache.commons.math3.util.FastMath;
 /** Extractor for {@link PolygonsSet polyhedrons sets} outlines.
  * <p>This class extracts the 2D outlines from {{@link PolygonsSet
  * polyhedrons sets} in a specified projection plane.</p>
- * @version $Id: OutlineExtractor.java 1555174 2014-01-03 18:06:20Z luc $
  * @since 3.0
  */
 public class OutlineExtractor {
@@ -131,7 +130,7 @@ public class OutlineExtractor {
         /** Simple constructor.
          * @param tolerance tolerance below which points are considered identical
          */
-        public BoundaryProjector(final double tolerance) {
+        BoundaryProjector(final double tolerance) {
             this.projected = new PolygonsSet(new BSPTree<Euclidean2D>(Boolean.FALSE), tolerance);
             this.tolerance = tolerance;
         }

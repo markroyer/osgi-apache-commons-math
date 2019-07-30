@@ -23,7 +23,6 @@ import org.apache.commons.math3.ml.neuralnet.Network;
 /**
  * Trainer for Kohonen's Self-Organizing Map.
  *
- * @version $Id: KohonenTrainingTask.java 1566092 2014-02-08 18:48:29Z tn $
  * @since 3.3
  */
 public class KohonenTrainingTask implements Runnable {

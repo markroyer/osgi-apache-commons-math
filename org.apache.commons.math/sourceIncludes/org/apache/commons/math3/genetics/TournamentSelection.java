@@ -29,7 +29,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * fittest chromosome among them.
  *
  * @since 2.0
- * @version $Id: TournamentSelection.java 1550977 2013-12-14 22:07:02Z tn $
  */
 public class TournamentSelection implements SelectionPolicy {
 
@@ -75,6 +74,7 @@ public class TournamentSelection implements SelectionPolicy {
         }
         // auxiliary population
         ListPopulation tournamentPopulation = new ListPopulation(this.arity) {
+            /** {@inheritDoc} */
             public Population nextGeneration() {
                 // not useful here
                 return null;

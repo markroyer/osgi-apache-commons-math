@@ -43,7 +43,6 @@ package org.apache.commons.math3.ode.nonstiff;
  * @see GillIntegrator
  * @see ThreeEighthesIntegrator
  * @see LutherIntegrator
- * @version $Id: EulerIntegrator.java 1588755 2014-04-20 13:30:16Z luc $
  * @since 1.2
  */
 

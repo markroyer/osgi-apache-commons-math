@@ -23,17 +23,20 @@ import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.util.Incrementor;
+import org.apache.commons.math3.util.IntegerSequence;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
  * Provide a default implementation for several functions useful to generic
  * solvers.
+ * The default values for relative and function tolerances are 1e-14
+ * and 1e-15, respectively. It is however highly recommended to not
+ * rely on the default, but rather carefully consider values that match
+ * user's expectations, as well as the specifics of each implementation.
  *
  * @param <FUNC> Type of function to solve.
  *
  * @since 2.0
- * @version $Id: BaseAbstractUnivariateSolver.java 1455194 2013-03-11 15:45:54Z luc $
  */
 public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFunction>
     implements BaseUnivariateSolver<FUNC> {
@@ -48,7 +51,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     /** Relative accuracy. */
     private final double relativeAccuracy;
     /** Evaluations counter. */
-    private final Incrementor evaluations = new Incrementor();
+    private IntegerSequence.Incrementor evaluations;
     /** Lower end of search interval. */
     private double searchMin;
     /** Higher end of search interval. */
@@ -76,7 +79,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @param absoluteAccuracy Maximum absolute error.
      */
     protected BaseAbstractUnivariateSolver(final double relativeAccuracy,
-                                               final double absoluteAccuracy) {
+                                           final double absoluteAccuracy) {
         this(relativeAccuracy,
              absoluteAccuracy,
              DEFAULT_FUNCTION_VALUE_ACCURACY);
@@ -90,11 +93,12 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @param functionValueAccuracy Maximum function value error.
      */
     protected BaseAbstractUnivariateSolver(final double relativeAccuracy,
-                                               final double absoluteAccuracy,
-                                               final double functionValueAccuracy) {
-        this.absoluteAccuracy = absoluteAccuracy;
-        this.relativeAccuracy = relativeAccuracy;
+                                           final double absoluteAccuracy,
+                                           final double functionValueAccuracy) {
+        this.absoluteAccuracy      = absoluteAccuracy;
+        this.relativeAccuracy      = relativeAccuracy;
         this.functionValueAccuracy = functionValueAccuracy;
+        this.evaluations           = IntegerSequence.Incrementor.create();
     }
 
     /** {@inheritDoc} */
@@ -181,8 +185,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
         searchMax = max;
         searchStart = startValue;
         function = f;
-        evaluations.setMaximalCount(maxEval);
-        evaluations.resetCount();
+        evaluations = evaluations.withMaximalCount(maxEval).withStart(0);
     }
 
     /** {@inheritDoc} */
@@ -307,7 +310,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     protected void incrementEvaluationCount()
         throws TooManyEvaluationsException {
         try {
-            evaluations.incrementCount();
+            evaluations.increment();
         } catch (MaxCountExceededException e) {
             throw new TooManyEvaluationsException(e.getMax());
         }

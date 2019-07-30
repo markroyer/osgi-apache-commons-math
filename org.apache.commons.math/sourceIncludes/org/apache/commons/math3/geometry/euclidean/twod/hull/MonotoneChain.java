@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.commons.math3.geometry.euclidean.twod.Line;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * Implements Andrew's monotone chain method to generate the convex hull of a finite set of
@@ -45,7 +46,6 @@ import org.apache.commons.math3.util.FastMath;
  * @see <a href="http://en.wikibooks.org/wiki/Algorithm_Implementation/Geometry/Convex_hull/Monotone_chain">
  * Andrew's monotone chain algorithm (Wikibooks)</a>
  * @since 3.3
- * @version $Id: MonotoneChain.java 1568752 2014-02-16 12:19:51Z tn $
  */
 public class MonotoneChain extends AbstractConvexHullGenerator2D {
 
@@ -73,6 +73,7 @@ public class MonotoneChain extends AbstractConvexHullGenerator2D {
         super(includeCollinearPoints, tolerance);
     }
 
+    /** {@inheritDoc} */
     @Override
     public Collection<Vector2D> findHullVertices(final Collection<Vector2D> points) {
 
@@ -80,10 +81,14 @@ public class MonotoneChain extends AbstractConvexHullGenerator2D {
 
         // sort the points in increasing order on the x-axis
         Collections.sort(pointsSortedByXAxis, new Comparator<Vector2D>() {
+            /** {@inheritDoc} */
             public int compare(final Vector2D o1, final Vector2D o2) {
-                final int diff = (int) FastMath.signum(o1.getX() - o2.getX());
+                final double tolerance = getTolerance();
+                // need to take the tolerance value into account, otherwise collinear points
+                // will not be handled correctly when building the upper/lower hull
+                final int diff = Precision.compareTo(o1.getX(), o2.getX(), tolerance);
                 if (diff == 0) {
-                    return (int) FastMath.signum(o1.getY() - o2.getY());
+                    return Precision.compareTo(o1.getY(), o2.getY(), tolerance);
                 } else {
                     return diff;
                 }
@@ -160,8 +165,8 @@ public class MonotoneChain extends AbstractConvexHullGenerator2D {
                 } else {
                     if (distanceToCurrent > distanceToLast) {
                         hull.remove(size - 1);
+                        hull.add(point);
                     }
-                    hull.add(point);
                 }
                 return;
             } else if (offset > 0) {

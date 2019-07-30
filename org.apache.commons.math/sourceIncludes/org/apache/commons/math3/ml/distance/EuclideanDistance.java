@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math3.ml.distance;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Calculates the L<sub>2</sub> (Euclidean) distance between two points.
  *
- * @version $Id: EuclideanDistance.java 1519184 2013-08-31 15:22:59Z tn $
  * @since 3.2
  */
 public class EuclideanDistance implements DistanceMeasure {
@@ -30,7 +30,8 @@ public class EuclideanDistance implements DistanceMeasure {
     private static final long serialVersionUID = 1717556319784040040L;
 
     /** {@inheritDoc} */
-    public double compute(double[] a, double[] b) {
+    public double compute(double[] a, double[] b)
+    throws DimensionMismatchException {
         return MathArrays.distance(a, b);
     }
 

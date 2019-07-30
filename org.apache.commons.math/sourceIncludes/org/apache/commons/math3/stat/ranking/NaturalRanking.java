@@ -66,7 +66,6 @@ import org.apache.commons.math3.util.FastMath;
  * <td>(6, 5, 7, 8, 5, 9, 2, 2, 5)</td></tr></table></p>
  *
  * @since 2.0
- * @version $Id: NaturalRanking.java 1454897 2013-03-10 19:02:54Z luc $
  */
 public class NaturalRanking implements RankingAlgorithm {
 
@@ -438,7 +437,7 @@ public class NaturalRanking implements RankingAlgorithm {
          * @param value the value of the pair
          * @param position the original position
          */
-        public IntDoublePair(double value, int position) {
+        IntDoublePair(double value, int position) {
             this.value = value;
             this.position = position;
         }

@@ -25,7 +25,6 @@ import org.apache.commons.math3.util.FastMath;
  * @see <a
  *      href="http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Normal_approximation_interval">
  *      Normal approximation interval (Wikipedia)</a>
- * @version $Id: NormalApproximationInterval.java 1560928 2014-01-24 09:58:43Z luc $
  * @since 3.3
  */
 public class NormalApproximationInterval implements BinomialConfidenceInterval {

@@ -33,7 +33,6 @@ import org.apache.commons.math3.util.FastMath;
  * rule to remove error terms less than order O(N^(-2k)). Simpson's rule
  * is a special case of k = 2.</p>
  *
- * @version $Id: RombergIntegrator.java 1364387 2012-07-22 18:14:11Z tn $
  * @since 1.2
  */
 public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
@@ -102,17 +101,17 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
     protected double doIntegrate()
         throws TooManyEvaluationsException, MaxCountExceededException {
 
-        final int m = iterations.getMaximalCount() + 1;
+        final int m = getMaximalIterationCount() + 1;
         double previousRow[] = new double[m];
         double currentRow[]  = new double[m];
 
         TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
         currentRow[0] = qtrap.stage(this, 0);
-        iterations.incrementCount();
+        incrementCount();
         double olds = currentRow[0];
         while (true) {
 
-            final int i = iterations.getCount();
+            final int i = getIterations();
 
             // switch rows
             final double[] tmpRow = previousRow;
@@ -120,7 +119,7 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
             currentRow = tmpRow;
 
             currentRow[0] = qtrap.stage(this, i);
-            iterations.incrementCount();
+            incrementCount();
             for (int j = 1; j <= i; j++) {
                 // Richardson extrapolation coefficient
                 final double r = (1L << (2 * j)) - 1;

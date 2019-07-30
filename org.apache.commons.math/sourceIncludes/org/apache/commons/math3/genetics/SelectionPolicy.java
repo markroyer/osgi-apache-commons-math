@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
  * Algorithm used to select a chromosome pair from a population.
  *
  * @since 2.0
- * @version $Id: SelectionPolicy.java 1416643 2012-12-03 19:37:14Z tn $
  */
 public interface SelectionPolicy {
     /**

@@ -20,7 +20,6 @@ import java.io.Serializable;
 
 /** This interface represents a generic geometrical point.
  * @param <S> Type of the space.
- * @version $Id: Point.java 1554651 2014-01-01 17:27:48Z luc $
  * @see Space
  * @see Vector
  * @since 3.3

@@ -43,7 +43,6 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
  * @see FirstOrderDifferentialEquations
  * @see JacobianMatrices
  *
- * @version $Id: ExpandableStatefulODE.java 1463680 2013-04-02 19:02:55Z luc $
  * @since 3.0
  */
 
@@ -318,7 +317,7 @@ public class ExpandableStatefulODE {
          * @param equation secondary differential equation
          * @param firstIndex index to use for the first element in the complete arrays
          */
-        public SecondaryComponent(final SecondaryEquations equation, final int firstIndex) {
+        SecondaryComponent(final SecondaryEquations equation, final int firstIndex) {
             final int n   = equation.getDimension();
             this.equation = equation;
             mapper        = new EquationsMapper(firstIndex, n);

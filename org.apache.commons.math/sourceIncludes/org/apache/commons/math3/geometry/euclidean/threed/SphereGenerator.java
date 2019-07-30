@@ -28,7 +28,6 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.util.FastMath;
 
 /** Class generating an enclosing ball from its support points.
- * @version $Id: SphereGenerator.java 1564921 2014-02-05 20:42:58Z luc $
  * @since 3.3
  */
 public class SphereGenerator implements SupportBallGenerator<Euclidean3D, Vector3D> {

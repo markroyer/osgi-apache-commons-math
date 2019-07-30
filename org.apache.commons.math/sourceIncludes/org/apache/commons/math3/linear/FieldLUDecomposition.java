@@ -48,7 +48,6 @@ import org.apache.commons.math3.util.MathArrays;
  * @param <T> the type of the field elements
  * @see <a href="http://mathworld.wolfram.com/LUDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</a>
- * @version $Id: FieldLUDecomposition.java 1449528 2013-02-24 19:06:20Z luc $
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class FieldLUDecomposition<T extends FieldElement<T>> {
@@ -257,7 +256,9 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
         return new Solver<T>(field, lu, pivot, singular);
     }
 
-    /** Specialized solver. */
+    /** Specialized solver.
+     * @param <T> the type of the field elements
+     */
     private static class Solver<T extends FieldElement<T>> implements FieldDecompositionSolver<T> {
 
         /** Field to which the elements belong. */

@@ -49,7 +49,6 @@ import org.apache.commons.math3.geometry.Space;
  * @param <S> Type of the embedding space.
  * @param <T> Type of the embedded sub-space.
 
- * @version $Id: Transform.java 1554646 2014-01-01 17:22:53Z luc $
  * @since 3.0
  */
 public interface Transform<S extends Space, T extends Space> {

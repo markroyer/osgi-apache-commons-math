@@ -20,7 +20,6 @@ package org.apache.commons.math3.genetics;
  * A pair of {@link Chromosome} objects.
  * @since 2.0
  *
- * @version $Id: ChromosomePair.java 1416643 2012-12-03 19:37:14Z tn $
  */
 public class ChromosomePair {
     /** the first chromosome in the pair. */
@@ -59,6 +58,7 @@ public class ChromosomePair {
         return second;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return String.format("(%s,%s)", getFirst(), getSecond());

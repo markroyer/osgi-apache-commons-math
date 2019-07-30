@@ -44,14 +44,15 @@ import org.apache.commons.math3.util.MathUtils;
  * [n^2 - 3 * (n-1)] * dev^4 * (n-1) / n^3 </p>
  * <p>
  * Returns <code>Double.NaN</code> if no data values have been added and
- * returns <code>0</code> if there is just one value in the data set. </p>
+ * returns <code>0</code> if there is just one value in the data set. Note that
+ * Double.NaN may also be returned if the input includes NaN and / or infinite
+ * values. </p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally. </p>
  *
- * @version $Id: FourthMoment.java 1416643 2012-12-03 19:37:14Z tn $
  */
 class FourthMoment extends ThirdMoment implements Serializable{
 
@@ -64,7 +65,7 @@ class FourthMoment extends ThirdMoment implements Serializable{
     /**
      * Create a FourthMoment instance
      */
-    public FourthMoment() {
+    FourthMoment() {
         super();
         m4 = Double.NaN;
     }
@@ -76,7 +77,7 @@ class FourthMoment extends ThirdMoment implements Serializable{
      * @param original the {@code FourthMoment} instance to copy
      * @throws NullArgumentException if original is null
      */
-     public FourthMoment(FourthMoment original) throws NullArgumentException {
+     FourthMoment(FourthMoment original) throws NullArgumentException {
          super();
          copy(original, this);
      }

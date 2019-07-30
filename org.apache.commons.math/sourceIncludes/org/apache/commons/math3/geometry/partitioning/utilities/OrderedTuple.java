@@ -88,9 +88,11 @@ import org.apache.commons.math3.util.FastMath;
  * components</li>
  * </ul>
  *
- * @version $Id: OrderedTuple.java 1591835 2014-05-02 09:04:01Z tn $
  * @since 3.0
+ * @deprecated as of 3.4, this class is not used anymore and considered
+ * to be out of scope of Apache Commons Math
  */
+@Deprecated
 public class OrderedTuple implements Comparable<OrderedTuple> {
 
     /** Sign bit mask. */

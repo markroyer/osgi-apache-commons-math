@@ -64,15 +64,15 @@ import org.apache.commons.math3.util.FastMath;
  *   obs.add(4.07525716, 1447024.0);
  *   obs.add(4.08237071, 717104.0);
  *   obs.add(4.08366408, 620014.0);
- *   double[] parameters = GaussianCurveFitter.create().fit(obs);
+ *   double[] parameters = GaussianCurveFitter.create().fit(obs.toList());
  * </pre>
  *
- * @version $Id: GaussianCurveFitter.java 1571640 2014-02-25 10:27:21Z erans $
  * @since 3.3
  */
 public class GaussianCurveFitter extends AbstractCurveFitter {
     /** Parametric function to be fitted. */
     private static final Gaussian.Parametric FUNCTION = new Gaussian.Parametric() {
+            /** {@inheritDoc} */
             @Override
             public double value(double x, double ... p) {
                 double v = Double.POSITIVE_INFINITY;
@@ -84,6 +84,7 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
                 return v;
             }
 
+            /** {@inheritDoc} */
             @Override
             public double[] gradient(double x, double ... p) {
                 double[] v = { Double.POSITIVE_INFINITY,
@@ -250,6 +251,7 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
             final List<WeightedObservedPoint> observations = new ArrayList<WeightedObservedPoint>(unsorted);
 
             final Comparator<WeightedObservedPoint> cmp = new Comparator<WeightedObservedPoint>() {
+                /** {@inheritDoc} */
                 public int compare(WeightedObservedPoint p1,
                                    WeightedObservedPoint p2) {
                     if (p1 == null && p2 == null) {
@@ -261,22 +263,25 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
                     if (p2 == null) {
                         return 1;
                     }
-                    if (p1.getX() < p2.getX()) {
+                    final int cmpX = Double.compare(p1.getX(), p2.getX());
+                    if (cmpX < 0) {
                         return -1;
                     }
-                    if (p1.getX() > p2.getX()) {
+                    if (cmpX > 0) {
                         return 1;
                     }
-                    if (p1.getY() < p2.getY()) {
+                    final int cmpY = Double.compare(p1.getY(), p2.getY());
+                    if (cmpY < 0) {
                         return -1;
                     }
-                    if (p1.getY() > p2.getY()) {
+                    if (cmpY > 0) {
                         return 1;
                     }
-                    if (p1.getWeight() < p2.getWeight()) {
+                    final int cmpW = Double.compare(p1.getWeight(), p2.getWeight());
+                    if (cmpW < 0) {
                         return -1;
                     }
-                    if (p1.getWeight() > p2.getWeight()) {
+                    if (cmpW > 0) {
                         return 1;
                     }
                     return 0;

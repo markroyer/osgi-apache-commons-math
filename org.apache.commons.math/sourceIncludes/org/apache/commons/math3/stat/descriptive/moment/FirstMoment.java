@@ -38,14 +38,15 @@ import org.apache.commons.math3.util.MathUtils;
  *   <code>m = m + (new value - m) / (number of observations)</code></li>
  * </ol></p>
  * <p>
- *  Returns <code>Double.NaN</code> if the dataset is empty.</p>
+ *  Returns <code>Double.NaN</code> if the dataset is empty. Note that
+ *  Double.NaN may also be returned if the input includes NaN and / or infinite
+ *  values.</p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
  *
- * @version $Id: FirstMoment.java 1416643 2012-12-03 19:37:14Z tn $
  */
 class FirstMoment extends AbstractStorelessUnivariateStatistic
     implements Serializable {
@@ -76,7 +77,7 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
     /**
      * Create a FirstMoment instance
      */
-    public FirstMoment() {
+    FirstMoment() {
         n = 0;
         m1 = Double.NaN;
         dev = Double.NaN;
@@ -90,7 +91,7 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
      * @param original the {@code FirstMoment} instance to copy
      * @throws NullArgumentException if original is null
      */
-     public FirstMoment(FirstMoment original) throws NullArgumentException {
+     FirstMoment(FirstMoment original) throws NullArgumentException {
          super();
          copy(original, this);
      }

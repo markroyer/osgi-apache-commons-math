@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math3.ml.distance;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Calculates the L<sub>1</sub> (sum of abs) distance between two points.
  *
- * @version $Id: ManhattanDistance.java 1519184 2013-08-31 15:22:59Z tn $
  * @since 3.2
  */
 public class ManhattanDistance implements DistanceMeasure {
@@ -30,7 +30,8 @@ public class ManhattanDistance implements DistanceMeasure {
     private static final long serialVersionUID = -9108154600539125566L;
 
     /** {@inheritDoc} */
-    public double compute(double[] a, double[] b) {
+    public double compute(double[] a, double[] b)
+    throws DimensionMismatchException {
         return MathArrays.distance1(a, b);
     }
 

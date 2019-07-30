@@ -24,7 +24,6 @@ import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 
 /**
  * This class implements a three-dimensional space.
- * @version $Id: Euclidean3D.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 3.0
  */
 public class Euclidean3D implements Serializable, Space {

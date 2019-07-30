@@ -18,17 +18,17 @@ package org.apache.commons.math3.distribution;
 
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.special.Gamma;
-import org.apache.commons.math3.special.Beta;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.special.Beta;
+import org.apache.commons.math3.special.Gamma;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * Implements the Beta distribution.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Beta_distribution">Beta distribution</a>
- * @version $Id: BetaDistribution.java 1533990 2013-10-20 21:24:45Z tn $
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class BetaDistribution extends AbstractRealDistribution {
@@ -52,6 +52,13 @@ public class BetaDistribution extends AbstractRealDistribution {
 
     /**
      * Build a new instance.
+     * <p>
+     * <b>Note:</b> this constructor will implicitly create an instance of
+     * {@link Well19937c} as random generator to be used for sampling only (see
+     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
+     * needed for the created distribution, it is advised to pass {@code null}
+     * as random generator via the appropriate constructors to avoid the
+     * additional initialisation overhead.
      *
      * @param alpha First shape parameter (must be positive).
      * @param beta Second shape parameter (must be positive).
@@ -62,6 +69,13 @@ public class BetaDistribution extends AbstractRealDistribution {
 
     /**
      * Build a new instance.
+     * <p>
+     * <b>Note:</b> this constructor will implicitly create an instance of
+     * {@link Well19937c} as random generator to be used for sampling only (see
+     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
+     * needed for the created distribution, it is advised to pass {@code null}
+     * as random generator via the appropriate constructors to avoid the
+     * additional initialisation overhead.
      *
      * @param alpha First shape parameter (must be positive).
      * @param beta Second shape parameter (must be positive).
@@ -252,5 +266,141 @@ public class BetaDistribution extends AbstractRealDistribution {
      */
     public boolean isSupportConnected() {
         return true;
+    }
+
+
+    /** {@inheritDoc}
+    * <p>
+    * Sampling is performed using Cheng algorithms:
+    * </p>
+    * <p>
+    * R. C. H. Cheng, "Generating beta variates with nonintegral shape parameters.".
+    *                 Communications of the ACM, 21, 317â€“322, 1978.
+    * </p>
+    */
+    @Override
+    public double sample() {
+        return ChengBetaSampler.sample(random, alpha, beta);
+    }
+
+    /** Utility class implementing Cheng's algorithms for beta distribution sampling.
+     * <p>
+     * R. C. H. Cheng, "Generating beta variates with nonintegral shape parameters.".
+     *                 Communications of the ACM, 21, 317â€“322, 1978.
+     * </p>
+     * @since 3.6
+     */
+    private static final class ChengBetaSampler {
+
+        /**
+         * Returns one sample using Cheng's sampling algorithm.
+         * @param random random generator to use
+         * @param alpha distribution first shape parameter
+         * @param beta distribution second shape parameter
+         * @return sampled value
+         */
+        static double sample(RandomGenerator random, final double alpha, final double beta) {
+            final double a = FastMath.min(alpha, beta);
+            final double b = FastMath.max(alpha, beta);
+
+            if (a > 1) {
+                return algorithmBB(random, alpha, a, b);
+            } else {
+                return algorithmBC(random, alpha, b, a);
+            }
+        }
+
+        /**
+         * Returns one sample using Cheng's BB algorithm, when both &alpha; and &beta; are greater than 1.
+         * @param random random generator to use
+         * @param a0 distribution first shape parameter (&alpha;)
+         * @param a min(&alpha;, &beta;) where &alpha;, &beta; are the two distribution shape parameters
+         * @param b max(&alpha;, &beta;) where &alpha;, &beta; are the two distribution shape parameters
+         * @return sampled value
+         */
+        private static double algorithmBB(RandomGenerator random,
+                                          final double a0,
+                                          final double a,
+                                          final double b) {
+            final double alpha = a + b;
+            final double beta = FastMath.sqrt((alpha - 2.) / (2. * a * b - alpha));
+            final double gamma = a + 1. / beta;
+
+            double r;
+            double w;
+            double t;
+            do {
+                final double u1 = random.nextDouble();
+                final double u2 = random.nextDouble();
+                final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
+                w = a * FastMath.exp(v);
+                final double z = u1 * u1 * u2;
+                r = gamma * v - 1.3862944;
+                final double s = a + r - w;
+                if (s + 2.609438 >= 5 * z) {
+                    break;
+                }
+
+                t = FastMath.log(z);
+                if (s >= t) {
+                    break;
+                }
+            } while (r + alpha * (FastMath.log(alpha) - FastMath.log(b + w)) < t);
+
+            w = FastMath.min(w, Double.MAX_VALUE);
+            return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
+        }
+
+        /**
+         * Returns one sample using Cheng's BC algorithm, when at least one of &alpha; and &beta; is smaller than 1.
+         * @param random random generator to use
+         * @param a0 distribution first shape parameter (&alpha;)
+         * @param a max(&alpha;, &beta;) where &alpha;, &beta; are the two distribution shape parameters
+         * @param b min(&alpha;, &beta;) where &alpha;, &beta; are the two distribution shape parameters
+         * @return sampled value
+         */
+        private static double algorithmBC(RandomGenerator random,
+                                          final double a0,
+                                          final double a,
+                                          final double b) {
+            final double alpha = a + b;
+            final double beta = 1. / b;
+            final double delta = 1. + a - b;
+            final double k1 = delta * (0.0138889 + 0.0416667 * b) / (a * beta - 0.777778);
+            final double k2 = 0.25 + (0.5 + 0.25 / delta) * b;
+
+            double w;
+            for (;;) {
+                final double u1 = random.nextDouble();
+                final double u2 = random.nextDouble();
+                final double y = u1 * u2;
+                final double z = u1 * y;
+                if (u1 < 0.5) {
+                    if (0.25 * u2 + z - y >= k1) {
+                        continue;
+                    }
+                } else {
+                    if (z <= 0.25) {
+                        final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
+                        w = a * FastMath.exp(v);
+                        break;
+                    }
+
+                    if (z >= k2) {
+                        continue;
+                    }
+                }
+
+                final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
+                w = a * FastMath.exp(v);
+                if (alpha * (FastMath.log(alpha) - FastMath.log(b + w) + v) - 1.3862944 >= FastMath.log(z)) {
+                    break;
+                }
+            }
+
+            w = FastMath.min(w, Double.MAX_VALUE);
+            return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
+        }
+
     }
 }

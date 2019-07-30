@@ -41,7 +41,6 @@ import org.apache.commons.math3.stat.ranking.RankingAlgorithm;
  * The ranking algorithm can be set using a constructor argument.
  *
  * @since 2.0
- * @version $Id: SpearmansCorrelation.java 1461822 2013-03-27 19:44:22Z tn $
  */
 public class SpearmansCorrelation {
 
@@ -107,6 +106,7 @@ public class SpearmansCorrelation {
      * Calculate the Spearman Rank Correlation Matrix.
      *
      * @return Spearman Rank Correlation Matrix
+     * @throws NullPointerException if this instance was created with no data
      */
     public RealMatrix getCorrelationMatrix() {
         return rankCorrelation.getCorrelationMatrix();
@@ -121,6 +121,8 @@ public class SpearmansCorrelation {
      * <code>rankTransform(matrix)</code> is the result of applying the
      * configured <code>RankingAlgorithm</code> to each of the columns of
      * <code>matrix.</code>
+     *
+     * <p>Returns null if this instance was created with no data.</p>
      *
      * @return PearsonsCorrelation among ranked column data
      */

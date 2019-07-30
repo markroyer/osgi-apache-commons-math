@@ -76,7 +76,6 @@ import org.apache.commons.math3.util.MathArrays;
  *  <li><a href="http://en.wikipedia.org/wiki/CMA-ES">Wikipedia</a></li>
  * </ul>
  *
- * @version $Id: CMAESOptimizer.java 1573506 2014-03-03 09:58:29Z luc $
  * @since 3.0
  */
 public class CMAESOptimizer
@@ -912,7 +911,7 @@ public class CMAESOptimizer
          * @param value Function value.
          * @param penalty Out-of-bounds penalty.
         */
-        public ValuePenaltyPair(final double value, final double penalty) {
+        ValuePenaltyPair(final double value, final double penalty) {
             this.value   = value;
             this.penalty = penalty;
         }
@@ -932,7 +931,7 @@ public class CMAESOptimizer
 
         /** Simple constructor.
          */
-        public FitnessFunction() {
+        FitnessFunction() {
             isRepairMode = true;
         }
 

@@ -25,7 +25,6 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.RandomDataImpl;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -33,7 +32,6 @@ import org.apache.commons.math3.util.FastMath;
  * Default implementations are provided for some of the methods
  * that do not vary from distribution to distribution.
  *
- * @version $Id: AbstractRealDistribution.java 1533974 2013-10-20 20:42:41Z psteitz $
  * @since 3.0
  */
 public abstract class AbstractRealDistribution
@@ -48,7 +46,8 @@ implements RealDistribution, Serializable {
       * {@link #random} instance variable instead.
       */
     @Deprecated
-    protected RandomDataImpl randomData = new RandomDataImpl();
+    protected org.apache.commons.math3.random.RandomDataImpl randomData =
+        new org.apache.commons.math3.random.RandomDataImpl();
 
     /**
      * RNG instance used to generate samples from the distribution.
@@ -197,7 +196,7 @@ implements RealDistribution, Serializable {
         }
 
         final UnivariateFunction toSolve = new UnivariateFunction() {
-
+            /** {@inheritDoc} */
             public double value(final double x) {
                 return cumulativeProbability(x) - p;
             }

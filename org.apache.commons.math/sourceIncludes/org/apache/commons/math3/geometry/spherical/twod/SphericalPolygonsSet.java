@@ -27,6 +27,7 @@ import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math3.geometry.enclosing.WelzlEncloser;
 import org.apache.commons.math3.geometry.euclidean.threed.Euclidean3D;
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
+import org.apache.commons.math3.geometry.euclidean.threed.RotationConvention;
 import org.apache.commons.math3.geometry.euclidean.threed.SphereGenerator;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
@@ -39,7 +40,6 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
 /** This class represents a region on the 2-sphere: a set of spherical polygons.
- * @version $Id: SphericalPolygonsSet.java 1591835 2014-05-02 09:04:01Z tn $
  * @since 3.3
  */
 public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
@@ -162,10 +162,11 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
     private static S2Point[] createRegularPolygonVertices(final Vector3D center, final Vector3D meridian,
                                                           final double outsideRadius, final int n) {
         final S2Point[] array = new S2Point[n];
-        final Rotation r0 = new Rotation(Vector3D.crossProduct(center, meridian), outsideRadius);
+        final Rotation r0 = new Rotation(Vector3D.crossProduct(center, meridian),
+                                         outsideRadius, RotationConvention.VECTOR_OPERATOR);
         array[0] = new S2Point(r0.applyTo(center));
 
-        final Rotation r = new Rotation(center, MathUtils.TWO_PI / n);
+        final Rotation r = new Rotation(center, MathUtils.TWO_PI / n, RotationConvention.VECTOR_OPERATOR);
         for (int i = 1; i < n; ++i) {
             array[i] = new S2Point(r.applyTo(array[i - 1].getVector()));
         }

@@ -28,7 +28,6 @@ import org.apache.commons.math3.util.MathUtils;
 
 /** This class represents a 1D vector.
  * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Id: Vector1D.java 1554651 2014-01-01 17:27:48Z luc $
  * @since 3.0
  */
 public class Vector1D implements Vector<Euclidean1D> {

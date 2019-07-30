@@ -22,12 +22,11 @@ import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 
 /**
- * Abstract base class to generate confidence intervals for a binomial proportion.
+ * Interface to generate confidence intervals for a binomial proportion.
  *
  * @see <a
  *      href="http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval">Binomial
  *      proportion confidence interval (Wikipedia)</a>
- * @version $Id: BinomialConfidenceInterval.java 1560531 2014-01-22 22:00:37Z tn $
  * @since 3.3
  */
 public interface BinomialConfidenceInterval {

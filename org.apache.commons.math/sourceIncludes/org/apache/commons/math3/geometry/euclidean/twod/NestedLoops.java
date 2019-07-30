@@ -18,6 +18,7 @@ package org.apache.commons.math3.geometry.euclidean.twod;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -42,7 +43,6 @@ import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
  * internal loops is computed as the reverse of the orientation of
  * their immediate surrounding loop.</p>
 
- * @version $Id: NestedLoops.java 1555174 2014-01-03 18:06:20Z luc $
  * @since 3.0
  */
 class NestedLoops {
@@ -51,7 +51,7 @@ class NestedLoops {
     private Vector2D[] loop;
 
     /** Surrounded loops. */
-    private ArrayList<NestedLoops> surrounded;
+    private List<NestedLoops> surrounded;
 
     /** Polygon enclosing a finite region. */
     private Region<Euclidean2D> polygon;
@@ -70,7 +70,7 @@ class NestedLoops {
      * @param tolerance tolerance below which points are considered identical
      * @since 3.3
      */
-    public NestedLoops(final double tolerance) {
+    NestedLoops(final double tolerance) {
         this.surrounded = new ArrayList<NestedLoops>();
         this.tolerance  = tolerance;
     }

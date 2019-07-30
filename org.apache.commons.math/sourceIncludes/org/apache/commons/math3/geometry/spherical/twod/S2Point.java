@@ -33,7 +33,6 @@ import org.apache.commons.math3.util.MathUtils;
  * Coordinates</a> in MathWorld).
  * </p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Id: S2Point.java 1554651 2014-01-01 17:27:48Z luc $
  * @since 3.3
  */
 public class S2Point implements Point<Sphere2D> {

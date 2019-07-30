@@ -26,7 +26,6 @@ import org.apache.commons.math3.util.Precision;
 
 /** This class represents an arc on a circle.
  * @see ArcsSet
- * @version $Id: Arc.java 1554654 2014-01-01 17:30:06Z luc $
  * @since 3.3
  */
 public class Arc {

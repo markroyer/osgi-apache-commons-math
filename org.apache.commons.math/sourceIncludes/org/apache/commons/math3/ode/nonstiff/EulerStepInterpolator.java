@@ -39,7 +39,6 @@ import org.apache.commons.math3.ode.sampling.StepInterpolator;
  * the derivatives already computed during the step.</p>
  *
  * @see EulerIntegrator
- * @version $Id: EulerStepInterpolator.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 1.2
  */
 
@@ -60,15 +59,18 @@ class EulerStepInterpolator
    * to create the step interpolators by cloning an uninitialized model
    * and later initializing the copy.
    */
+  // CHECKSTYLE: stop RedundantModifier
+  // the public modifier here is needed for serialization
   public EulerStepInterpolator() {
   }
+  // CHECKSTYLE: resume RedundantModifier
 
   /** Copy constructor.
    * @param interpolator interpolator to copy from. The copy is a deep
    * copy: its arrays are separated from the original arrays of the
    * instance
    */
-  public EulerStepInterpolator(final EulerStepInterpolator interpolator) {
+  EulerStepInterpolator(final EulerStepInterpolator interpolator) {
     super(interpolator);
   }
 

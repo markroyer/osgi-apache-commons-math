@@ -31,7 +31,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * theoretically expected distribution of observations into two categories.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Binomial_test">Binomial test (Wikipedia)</a>
- * @version $Id: BinomialTest.java 1532638 2013-10-16 04:29:31Z psteitz $
  * @since 3.3
  */
 public class BinomialTest {
@@ -120,7 +119,8 @@ public class BinomialTest {
             throw new NullArgumentException();
         }
 
-        final BinomialDistribution distribution = new BinomialDistribution(numberOfTrials, probability);
+        // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
+        final BinomialDistribution distribution = new BinomialDistribution(null, numberOfTrials, probability);
         switch (alternativeHypothesis) {
         case GREATER_THAN:
             return 1 - distribution.cumulativeProbability(numberOfSuccesses - 1);

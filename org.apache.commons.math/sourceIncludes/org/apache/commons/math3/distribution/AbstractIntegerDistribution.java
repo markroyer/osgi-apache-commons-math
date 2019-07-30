@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.RandomDataImpl;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -32,7 +31,6 @@ import org.apache.commons.math3.util.FastMath;
  * implementations are provided for some of the methods that do not vary
  * from distribution to distribution.
  *
- * @version $Id: AbstractIntegerDistribution.java 1547633 2013-12-03 23:03:06Z tn $
  */
 public abstract class AbstractIntegerDistribution implements IntegerDistribution, Serializable {
 
@@ -45,7 +43,8 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      * {@link #random} instance variable instead.
      */
     @Deprecated
-    protected final RandomDataImpl randomData = new RandomDataImpl();
+    protected final org.apache.commons.math3.random.RandomDataImpl randomData =
+        new org.apache.commons.math3.random.RandomDataImpl();
 
     /**
      * RNG instance used to generate samples from the distribution.

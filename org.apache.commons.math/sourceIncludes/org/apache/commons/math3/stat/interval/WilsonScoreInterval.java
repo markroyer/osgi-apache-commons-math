@@ -25,7 +25,6 @@ import org.apache.commons.math3.util.FastMath;
  * @see <a
  *      href="http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval">
  *      Wilson score interval (Wikipedia)</a>
- * @version $Id: WilsonScoreInterval.java 1560928 2014-01-24 09:58:43Z luc $
  * @since 3.3
  */
 public class WilsonScoreInterval implements BinomialConfidenceInterval {

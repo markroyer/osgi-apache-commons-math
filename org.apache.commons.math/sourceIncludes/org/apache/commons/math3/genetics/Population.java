@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
  * A collection of chromosomes that facilitates generational evolution.
  *
  * @since 2.0
- * @version $Id: Population.java 1416643 2012-12-03 19:37:14Z tn $
  */
 public interface Population extends Iterable<Chromosome> {
     /**

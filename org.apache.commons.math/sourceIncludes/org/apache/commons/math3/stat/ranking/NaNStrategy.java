@@ -33,7 +33,6 @@ package org.apache.commons.math3.stat.ranking;
  * </ul>
  *
  * @since 2.0
- * @version $Id: NaNStrategy.java 1422313 2012-12-15 18:53:41Z psteitz $
  */
 public enum NaNStrategy {
 

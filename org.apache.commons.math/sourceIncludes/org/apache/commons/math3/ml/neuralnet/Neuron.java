@@ -20,8 +20,10 @@ package org.apache.commons.math3.ml.neuralnet;
 import java.io.Serializable;
 import java.io.ObjectInputStream;
 import java.util.concurrent.atomic.AtomicReference;
-import org.apache.commons.math3.util.Precision;
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.util.Precision;
 
 
 /**
@@ -29,7 +31,6 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
  *
  * This class aims to be thread-safe.
  *
- * @version $Id: Neuron.java 1566092 2014-02-08 18:48:29Z tn $
  * @since 3.3
  */
 public class Neuron implements Serializable {
@@ -41,6 +42,10 @@ public class Neuron implements Serializable {
     private final int size;
     /** Neuron data. */
     private final AtomicReference<double[]> features;
+    /** Number of attempts to update a neuron. */
+    private final AtomicLong numberOfAttemptedUpdates = new AtomicLong(0);
+    /** Number of successful updates  of a neuron. */
+    private final AtomicLong numberOfSuccessfulUpdates = new AtomicLong(0);
 
     /**
      * Creates a neuron.
@@ -59,6 +64,23 @@ public class Neuron implements Serializable {
         this.identifier = identifier;
         this.size = features.length;
         this.features = new AtomicReference<double[]>(features.clone());
+    }
+
+    /**
+     * Performs a deep copy of this instance.
+     * Upon return, the copied and original instances will be independent:
+     * Updating one will not affect the other.
+     *
+     * @return a new instance with the same state as this instance.
+     * @since 3.6
+     */
+    public synchronized Neuron copy() {
+        final Neuron copy = new Neuron(getIdentifier(),
+                                       getFeatures());
+        copy.numberOfAttemptedUpdates.set(numberOfAttemptedUpdates.get());
+        copy.numberOfSuccessfulUpdates.set(numberOfSuccessfulUpdates.get());
+
+        return copy;
     }
 
     /**
@@ -130,13 +152,47 @@ public class Neuron implements Serializable {
             return false;
         }
 
+        // Increment attempt counter.
+        numberOfAttemptedUpdates.incrementAndGet();
+
         if (features.compareAndSet(current, update.clone())) {
-            // The current thread could atomically update the state.
+            // The current thread could atomically update the state (attempt succeeded).
+            numberOfSuccessfulUpdates.incrementAndGet();
             return true;
         } else {
-            // Some other thread came first.
+            // Some other thread came first (attempt failed).
             return false;
         }
+    }
+
+    /**
+     * Retrieves the number of calls to the
+     * {@link #compareAndSetFeatures(double[],double[]) compareAndSetFeatures}
+     * method.
+     * Note that if the caller wants to use this method in combination with
+     * {@link #getNumberOfSuccessfulUpdates()}, additional synchronization
+     * may be required to ensure consistency.
+     *
+     * @return the number of update attempts.
+     * @since 3.6
+     */
+    public long getNumberOfAttemptedUpdates() {
+        return numberOfAttemptedUpdates.get();
+    }
+
+    /**
+     * Retrieves the number of successful calls to the
+     * {@link #compareAndSetFeatures(double[],double[]) compareAndSetFeatures}
+     * method.
+     * Note that if the caller wants to use this method in combination with
+     * {@link #getNumberOfAttemptedUpdates()}, additional synchronization
+     * may be required to ensure consistency.
+     *
+     * @return the number of successful updates.
+     * @since 3.6
+     */
+    public long getNumberOfSuccessfulUpdates() {
+        return numberOfSuccessfulUpdates.get();
     }
 
     /**

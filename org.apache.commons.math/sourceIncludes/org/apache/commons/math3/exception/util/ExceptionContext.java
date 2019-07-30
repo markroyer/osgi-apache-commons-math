@@ -34,7 +34,6 @@ import java.util.Locale;
  * All Commons Math exceptions delegate the interface's methods to this class.
  *
  * @since 3.0
- * @version $Id: ExceptionContext.java 1364388 2012-07-22 18:16:43Z tn $
  */
 public class ExceptionContext implements Serializable {
     /** Serializable version Id. */
@@ -284,12 +283,12 @@ public class ExceptionContext implements Serializable {
     private void serializeContext(ObjectOutputStream out)
         throws IOException {
         // Step 1.
-        final int len = context.keySet().size();
+        final int len = context.size();
         out.writeInt(len);
-        for (String key : context.keySet()) {
+        for (Map.Entry<String, Object> entry : context.entrySet()) {
             // Step 2.
-            out.writeObject(key);
-            final Object value = context.get(key);
+            out.writeObject(entry.getKey());
+            final Object value = entry.getValue();
             if (value instanceof Serializable) {
                 // Step 3a.
                 out.writeObject(value);

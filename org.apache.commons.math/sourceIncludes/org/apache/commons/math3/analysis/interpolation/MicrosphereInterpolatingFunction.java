@@ -34,8 +34,10 @@ import org.apache.commons.math3.util.FastMath;
  * Interpolating function that implements the
  * <a href="http://www.dudziak.com/microsphere.php">Microsphere Projection</a>.
  *
- * @version $Id: MicrosphereInterpolatingFunction.java 1455194 2013-03-11 15:45:54Z luc $
+ * @deprecated Code will be removed in 4.0.  Use {@link InterpolatingMicrosphere}
+ * and {@link MicrosphereProjectionInterpolator} instead.
  */
+@Deprecated
 public class MicrosphereInterpolatingFunction
     implements MultivariateFunction {
     /**

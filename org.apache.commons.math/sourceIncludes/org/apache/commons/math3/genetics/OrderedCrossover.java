@@ -56,7 +56,6 @@ import org.apache.commons.math3.util.FastMath;
  *
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @since 3.1
- * @version $Id: OrderedCrossover.java 1385297 2012-09-16 16:05:57Z tn $
  */
 public class OrderedCrossover<T> implements CrossoverPolicy {
 

@@ -28,7 +28,6 @@ import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
 
 /** This class represents a subset of a {@link Line}.
- * @version $Id: SubLine.java 1555176 2014-01-03 18:07:59Z luc $
  * @since 3.0
  */
 public class SubLine {

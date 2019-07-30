@@ -30,7 +30,6 @@ import java.util.List;
  * <li>factorization</li>
  * </ul>
  *
- * @version $Id: Primes.java 1538368 2013-11-03 13:57:37Z erans $
  * @since 3.2
  */
 public class Primes {

@@ -20,10 +20,9 @@ import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointValuePair;
 
 /**
- * A constraint for a linear optimization problem indicating whether all
- * variables must be restricted to non-negative values.
+ * A callback object that can be provided to a linear optimizer to keep track
+ * of the best solution found.
  *
- * @version $Id: SolutionCallback.java 1560541 2014-01-22 22:12:42Z tn $
  * @since 3.3
  */
 public class SolutionCallback implements OptimizationData {

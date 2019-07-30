@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.NullArgumentException;
  * Interface representing <a href="http://mathworld.wolfram.com/Field.html">field</a> elements.
  * @param <T> the type of the field elements
  * @see Field
- * @version $Id: FieldElement.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 2.0
  */
 public interface FieldElement<T> {
@@ -32,7 +31,7 @@ public interface FieldElement<T> {
     /** Compute this + a.
      * @param a element to add
      * @return a new element representing this + a
-     * @throws NullArgumentException if {@code addend} is {@code null}.
+     * @throws NullArgumentException if {@code a} is {@code null}.
      */
     T add(T a) throws NullArgumentException;
 
@@ -67,7 +66,7 @@ public interface FieldElement<T> {
     T multiply(T a) throws NullArgumentException;
 
     /** Compute this &divide; a.
-     * @param a element to add
+     * @param a element to divide by
      * @return a new element representing this &divide; a
      * @throws NullArgumentException if {@code a} is {@code null}.
      * @throws MathArithmeticException if {@code a} is zero

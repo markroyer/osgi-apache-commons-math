@@ -26,7 +26,6 @@ import org.apache.commons.math3.analysis.function.Logistic;
  * <br/>
  * Class is immutable.
  *
- * @version $Id: QuasiSigmoidDecayFunction.java 1566092 2014-02-08 18:48:29Z tn $
  * @since 3.3
  */
 public class QuasiSigmoidDecayFunction {

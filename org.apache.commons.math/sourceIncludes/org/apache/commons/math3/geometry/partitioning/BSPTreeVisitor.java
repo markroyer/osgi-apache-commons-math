@@ -45,7 +45,6 @@ import org.apache.commons.math3.geometry.Space;
  * @see BSPTree
  * @see SubHyperplane
 
- * @version $Id: BSPTreeVisitor.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 3.0
  */
 public interface BSPTreeVisitor<S extends Space> {

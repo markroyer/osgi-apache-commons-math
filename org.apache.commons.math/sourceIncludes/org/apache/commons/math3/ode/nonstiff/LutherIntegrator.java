@@ -50,7 +50,6 @@ import org.apache.commons.math3.util.FastMath;
  * @see GillIntegrator
  * @see MidpointIntegrator
  * @see ThreeEighthesIntegrator
- * @version $Id: LutherIntegrator.java 1588753 2014-04-20 13:25:11Z luc $
  * @since 3.3
  */
 

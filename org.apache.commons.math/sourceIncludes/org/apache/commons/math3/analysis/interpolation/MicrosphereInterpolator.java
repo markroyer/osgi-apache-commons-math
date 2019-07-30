@@ -30,8 +30,10 @@ import org.apache.commons.math3.random.UnitSphereRandomVectorGenerator;
  * <a href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>.
  *
  * @since 2.1
- * @version $Id: MicrosphereInterpolator.java 1379904 2012-09-01 23:54:52Z erans $
+ * @deprecated Code will be removed in 4.0.  Use {@link InterpolatingMicrosphere}
+ * and {@link MicrosphereProjectionInterpolator} instead.
  */
+@Deprecated
 public class MicrosphereInterpolator
     implements MultivariateInterpolator {
     /**

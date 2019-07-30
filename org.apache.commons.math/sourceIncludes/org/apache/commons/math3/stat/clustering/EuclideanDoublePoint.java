@@ -24,7 +24,6 @@ import org.apache.commons.math3.util.MathArrays;
 
 /**
  * A simple implementation of {@link Clusterable} for points with double coordinates.
- * @version $Id: EuclideanDoublePoint.java 1461871 2013-03-27 22:01:25Z tn $
  * @since 3.1
  * @deprecated As of 3.2 (to be removed in 4.0),
  * use {@link org.apache.commons.math3.ml.clustering.DoublePoint} instead

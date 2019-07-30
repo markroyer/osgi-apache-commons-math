@@ -20,7 +20,6 @@ package org.apache.commons.math3.ml.neuralnet;
 /**
  * Defines how to assign the first value of a neuron's feature.
  *
- * @version $Id: FeatureInitializer.java 1566092 2014-02-08 18:48:29Z tn $
  * @since 3.3
  */
 public interface FeatureInitializer {

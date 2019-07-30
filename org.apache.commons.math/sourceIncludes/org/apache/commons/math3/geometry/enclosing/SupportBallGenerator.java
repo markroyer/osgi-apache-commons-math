@@ -28,7 +28,6 @@ import org.apache.commons.math3.geometry.Space;
  * </p>
  * @param <S> Space type.
  * @param <P> Point type.
- * @version $Id: SupportBallGenerator.java 1562220 2014-01-28 20:29:27Z luc $
  * @see EnclosingBall
  * @since 3.3
  */

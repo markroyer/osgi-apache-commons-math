@@ -52,7 +52,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  *
  * @param <T> type of the permuted objects
  * @since 2.0
- * @version $Id: RandomKey.java 1549093 2013-12-08 18:23:09Z tn $
  */
 public abstract class RandomKey<T> extends AbstractListChromosome<Double> implements PermutationChromosome<T> {
 
@@ -278,6 +277,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
         return Arrays.asList(res);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return String.format("(f=%s pi=(%s))", getFitness(), baseSeqPermutation);

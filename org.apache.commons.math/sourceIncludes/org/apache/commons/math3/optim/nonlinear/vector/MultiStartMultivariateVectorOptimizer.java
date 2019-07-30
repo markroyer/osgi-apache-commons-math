@@ -36,9 +36,9 @@ import org.apache.commons.math3.optim.PointVectorValuePair;
  * turn with different starting points (trying to avoid being trapped
  * in a local extremum when looking for a global one).
  *
- * @version $Id: MultiStartMultivariateVectorOptimizer.java 1435539 2013-01-19 13:27:24Z tn $
  * @since 3.0
  */
+@Deprecated
 public class MultiStartMultivariateVectorOptimizer
     extends BaseMultiStartMultivariateOptimizer<PointVectorValuePair> {
     /** Underlying optimizer. */
@@ -97,9 +97,12 @@ public class MultiStartMultivariateVectorOptimizer
      */
     private Comparator<PointVectorValuePair> getPairComparator() {
         return new Comparator<PointVectorValuePair>() {
+            /** Observed value to be matched. */
             private final RealVector target = new ArrayRealVector(optimizer.getTarget(), false);
+            /** Observations weights. */
             private final RealMatrix weight = optimizer.getWeight();
 
+            /** {@inheritDoc} */
             public int compare(final PointVectorValuePair o1,
                                final PointVectorValuePair o2) {
                 if (o1 == null) {

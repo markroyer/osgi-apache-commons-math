@@ -43,7 +43,6 @@ import org.apache.commons.math3.optimization.PointVectorValuePair;
  *
  * @param <T> Function to use for the fit.
  *
- * @version $Id: CurveFitter.java 1591835 2014-05-02 09:04:01Z tn $
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 2.0
  */
@@ -208,13 +207,14 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
         /** Simple constructor.
          * @param f function to fit.
          */
-        public OldTheoreticalValuesFunction(final ParametricUnivariateFunction f) {
+        OldTheoreticalValuesFunction(final ParametricUnivariateFunction f) {
             this.f = f;
         }
 
         /** {@inheritDoc} */
         public MultivariateMatrixFunction jacobian() {
             return new MultivariateMatrixFunction() {
+                /** {@inheritDoc} */
                 public double[][] value(double[] point) {
                     final double[][] jacobian = new double[observations.size()][];
 
@@ -250,7 +250,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
         /** Simple constructor.
          * @param f function to fit.
          */
-        public TheoreticalValuesFunction(final ParametricUnivariateFunction f) {
+        TheoreticalValuesFunction(final ParametricUnivariateFunction f) {
             this.f = f;
         }
 

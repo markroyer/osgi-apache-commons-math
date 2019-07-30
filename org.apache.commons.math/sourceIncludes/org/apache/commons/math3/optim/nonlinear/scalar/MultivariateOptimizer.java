@@ -26,7 +26,6 @@ import org.apache.commons.math3.exception.TooManyEvaluationsException;
 /**
  * Base class for a multivariate scalar function optimizer.
  *
- * @version $Id: MultivariateOptimizer.java 1572988 2014-02-28 16:23:26Z erans $
  * @since 3.1
  */
 public abstract class MultivariateOptimizer

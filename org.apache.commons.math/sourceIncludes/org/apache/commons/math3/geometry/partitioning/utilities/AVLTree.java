@@ -41,9 +41,11 @@ package org.apache.commons.math3.geometry.partitioning.utilities;
  *
  * @param <T> the type of the elements
  *
- * @version $Id: AVLTree.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 3.0
+ * @deprecated as of 3.4, this class is not used anymore and considered
+ * to be out of scope of Apache Commons Math
  */
+@Deprecated
 public class AVLTree<T extends Comparable<T>> {
 
     /** Top level node. */
@@ -199,7 +201,7 @@ public class AVLTree<T extends Comparable<T>> {
     }
 
     /** Enum for tree skew factor. */
-    private static enum Skew {
+    private enum Skew {
         /** Code for left high trees. */
         LEFT_HIGH,
 

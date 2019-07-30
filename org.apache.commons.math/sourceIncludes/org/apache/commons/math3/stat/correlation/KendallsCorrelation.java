@@ -65,7 +65,6 @@ import java.util.Comparator;
  * @see <a href="http://www.jstor.org/stable/2282833">A Computer
  * Method for Calculating Kendall's Tau with Ungrouped Data</a>
  *
- * @version $Id: KendallsCorrelation.java 1548907 2013-12-07 13:08:06Z tn $
  * @since 3.3
  */
 public class KendallsCorrelation {
@@ -169,6 +168,7 @@ public class KendallsCorrelation {
         }
 
         Arrays.sort(pairs, new Comparator<Pair<Double, Double>>() {
+            /** {@inheritDoc} */
             public int compare(Pair<Double, Double> pair1, Pair<Double, Double> pair2) {
                 int compareFirst = pair1.getFirst().compareTo(pair2.getFirst());
                 return compareFirst != 0 ? compareFirst : pair1.getSecond().compareTo(pair2.getSecond());
@@ -201,7 +201,7 @@ public class KendallsCorrelation {
         tiedXPairs += sum(consecutiveXTies - 1);
         tiedXYPairs += sum(consecutiveXYTies - 1);
 
-        int swaps = 0;
+        long swaps = 0;
         @SuppressWarnings("unchecked")
         Pair<Double, Double>[] pairsDestination = new Pair[n];
         for (int segmentSize = 1; segmentSize < n; segmentSize <<= 1) {

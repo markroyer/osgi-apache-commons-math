@@ -48,7 +48,6 @@ import org.apache.commons.math3.util.FastMath;
  * @see ClassicalRungeKuttaIntegrator
  * @see GillIntegrator
  * @see MidpointIntegrator
- * @version $Id: RungeKuttaIntegrator.java 1588769 2014-04-20 14:29:42Z luc $
  * @since 1.2
  */
 
@@ -120,7 +119,19 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
 
     // set up integration control objects
     stepStart = equations.getTime();
-    stepSize  = forward ? step : -step;
+    if (forward) {
+        if (stepStart + step >= t) {
+            stepSize = t - stepStart;
+        } else {
+            stepSize = step;
+        }
+    } else {
+        if (stepStart - step <= t) {
+            stepSize = t - stepStart;
+        } else {
+            stepSize = -step;
+        }
+    }
     initIntegration(equations.getTime(), y0, t);
 
     // main integration loop

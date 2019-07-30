@@ -17,17 +17,21 @@
 
 package org.apache.commons.math3.ml.neuralnet;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Comparator;
+
+import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.ml.distance.DistanceMeasure;
 import org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D;
-import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.util.Pair;
 
 /**
  * Utilities for network maps.
  *
- * @version $Id: MapUtils.java 1566092 2014-02-08 18:48:29Z tn $
  * @since 3.3
  */
 public class MapUtils {
@@ -102,6 +106,46 @@ public class MapUtils {
         }
 
         return new Pair<Neuron, Neuron>(best[0], best[1]);
+    }
+
+    /**
+     * Creates a list of neurons sorted in increased order of the distance
+     * to the given {@code features}.
+     *
+     * @param features Data.
+     * @param neurons List of neurons to scan. If it is empty, an empty array
+     * will be returned.
+     * @param distance Distance function.
+     * @return the neurons, sorted in increasing order of distance in data
+     * space.
+     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * if the size of the input is not compatible with the neurons features
+     * size.
+     *
+     * @see #findBest(double[],Iterable,DistanceMeasure)
+     * @see #findBestAndSecondBest(double[],Iterable,DistanceMeasure)
+     *
+     * @since 3.6
+     */
+    public static Neuron[] sort(double[] features,
+                                Iterable<Neuron> neurons,
+                                DistanceMeasure distance) {
+        final List<PairNeuronDouble> list = new ArrayList<PairNeuronDouble>();
+
+        for (final Neuron n : neurons) {
+            final double d = distance.compute(n.getFeatures(), features);
+            list.add(new PairNeuronDouble(n, d));
+        }
+
+        Collections.sort(list, PairNeuronDouble.COMPARATOR);
+
+        final int len = list.size();
+        final Neuron[] sorted = new Neuron[len];
+
+        for (int i = 0; i < len; i++) {
+            sorted[i] = list.get(i).getNeuron();
+        }
+        return sorted;
     }
 
     /**
@@ -244,5 +288,39 @@ public class MapUtils {
         }
 
         return ((double) notAdjacentCount) / count;
+    }
+
+    /**
+     * Helper data structure holding a (Neuron, double) pair.
+     */
+    private static class PairNeuronDouble {
+        /** Comparator. */
+        static final Comparator<PairNeuronDouble> COMPARATOR
+            = new Comparator<PairNeuronDouble>() {
+            /** {@inheritDoc} */
+            public int compare(PairNeuronDouble o1,
+                               PairNeuronDouble o2) {
+                return Double.compare(o1.value, o2.value);
+            }
+        };
+        /** Key. */
+        private final Neuron neuron;
+        /** Value. */
+        private final double value;
+
+        /**
+         * @param neuron Neuron.
+         * @param value Value.
+         */
+        PairNeuronDouble(Neuron neuron, double value) {
+            this.neuron = neuron;
+            this.value = value;
+        }
+
+        /** @return the neuron. */
+        public Neuron getNeuron() {
+            return neuron;
+        }
+
     }
 }

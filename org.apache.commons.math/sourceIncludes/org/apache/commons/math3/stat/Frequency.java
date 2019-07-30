@@ -25,6 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
@@ -60,7 +61,6 @@ import org.apache.commons.math3.util.MathUtils;
  * The values are ordered using the default (natural order), unless a
  * <code>Comparator</code> is supplied in the constructor.</p>
  *
- * @version $Id: Frequency.java 1519820 2013-09-03 19:58:03Z tn $
  */
 public class Frequency implements Serializable {
 
@@ -68,7 +68,7 @@ public class Frequency implements Serializable {
     private static final long serialVersionUID = -3845586908418844111L;
 
     /** underlying collection */
-    private final TreeMap<Comparable<?>, Long> freqTable;
+    private final SortedMap<Comparable<?>, Long> freqTable;
 
     /**
      * Default constructor.
@@ -627,6 +627,7 @@ public class Frequency implements Serializable {
     /**
      * A Comparator that compares comparable objects using the
      * natural order.  Copied from Commons Collections ComparableComparator.
+     * @param <T> the type of the objects compared
      */
     private static class NaturalComparator<T extends Comparable<T>> implements Comparator<Comparable<T>>, Serializable {
 
