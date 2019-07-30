@@ -10,7 +10,7 @@ the binary and related source material for OSGI developers.
 ## Install
 
 The most recent version of the library included in the repository is
-for Commons Math **3.3.0** and can be installed using Eclipse's plugin
+for Commons Math **3.6.1** and can be installed using Eclipse's plugin
 manager.
 
 Add the following URL to the list of available software sites in
